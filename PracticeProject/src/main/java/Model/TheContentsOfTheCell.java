@@ -17,7 +17,7 @@ public class TheContentsOfTheCell {
     private float g_costFromStart;//функция(g) - расстояние от начальной вершины
     private float g_costToFinish;//функция(h) - оценка расстояния до финиша
 
-<<<<<<< HEAD
+
     public TheContentsOfTheCell(Point location, boolean isObstacle){
         this.setObstacle(location, isObstacle);
     }
@@ -25,16 +25,6 @@ public class TheContentsOfTheCell {
     public void setObstacle(Point location, boolean isObstacle){
         this.g_isObstacle = isObstacle;
         this.g_location = location;
-=======
-    public TheContentsOfTheCell(int x, int y, boolean isObstacle){
-        this.setObstacle(x, y, isObstacle);
-    }
-
-    public void setObstacle(int x, int y, boolean isObstacle){
-        this.g_isObstacle = isObstacle;
-        this.g_location.x = x;
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
-
     }
 
     public void set(TheContentsOfTheCell parent, TheContentsOfTheCell finish) {
@@ -107,63 +97,46 @@ public class TheContentsOfTheCell {
     }
 
     public static class Empty extends TheContentsOfTheCell {
-<<<<<<< HEAD
+
         public Empty(Point location){
             super(location, false);//вызывается конструктор родительского класса
-=======
-        public Empty(int x, int y){
-            super(x , y, false);//вызывается конструктор родительского класса
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
             //МЫ ГОВОРИМ ЧТО КЛЕТКА ПУСТАЯ
         }
 
     }
 
     public static class Close extends TheContentsOfTheCell {
-<<<<<<< HEAD
+
         public Close(Point location){
             super(location,false);//вызывается конструктор родительского класса
-=======
-        public Close(int x, int y){
-            super(x, y,false);//вызывается конструктор родительского класса
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
             //МЫ ГОВОРИМ ЧТО КЛЕТКА close
         }
 
     }
 
     public static class Block extends TheContentsOfTheCell {
-<<<<<<< HEAD
+
         public Block(Point location){
             super(location,true);
-=======
-        public Block(int x, int y){
-            super(x, y,true);
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
+
             // МЫ ГОВОРИМ ЧТО КЛЕТКА !НЕ! ПУСТАЯ - блок
         }
 
     }
 
     public static class Start extends TheContentsOfTheCell {
-<<<<<<< HEAD
+
         public Start(Point location){
             super(location,false);
-=======
-        public Start(int x, int y){
-            super(x, y,false);
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
+
         }
     }
 
     public static class Finish extends TheContentsOfTheCell {
-<<<<<<< HEAD
+
         public Finish(Point location){
             super(location,false);
-=======
-        public Finish(int x, int y){
-            super(x, y,false);
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
+
         }
     }
 }

@@ -23,11 +23,10 @@ public class Grid {
         }
     }
 
-<<<<<<< HEAD
-    public void setGrid(TheContentsOfTheCell newGrid[][]){
-=======
+
+
     public void setGrid(TheContentsOfTheCell[][] newGrid){
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
+
         this.g_grid = newGrid;
         this.setWidth(newGrid.length);
         this.setHeight(newGrid.length);
@@ -86,14 +85,7 @@ public class Grid {
     public Memento createMemento(Grid grid) {
         return new Memento(grid);
     }
-<<<<<<< HEAD
 
-    // В нужный момент владелец снимка может восстановить состояние сетки
-    public Grid restoreMemento(Memento memento){
-        return memento.getGrid();
-    }
-=======
->>>>>>> cc386ac65f455489adbb5b224ee4674a74122783
 
     // В нужный момент владелец снимка может восстановить состояние сетки
     public Grid restoreMemento(Memento memento){
