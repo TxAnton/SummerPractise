@@ -23,11 +23,11 @@ public class Grid {
         }
     }
 
-    /*public void setGrid(TileObjectAbstract newGrid[][]){
+    public void setGrid(TheContentsOfTheCell[][] newGrid){
         this.g_grid = newGrid;
         this.setWidth(newGrid.length);
         this.setHeight(newGrid.length);
-    }*/
+    }
 
     public void setObject(int x, int y, TheContentsOfTheCell g){//меняем значение клетки с одного объекта на другой
         this.g_grid[y][x] = g;
@@ -77,5 +77,14 @@ public class Grid {
         return this.g_height;
     }
 
+    // Снимок — неизменяемый объект, поэтому "Создатель"=сетка передаёт
+    // все своё состояние через параметры конструктора.
+    public Memento createMemento(Grid grid) {
+        return new Memento(grid);
+    }
 
+    // В нужный момент владелец снимка может восстановить состояние сетки
+    public Grid restoreMemento(Memento memento){
+        return memento.getGrid();
+    }
 }
