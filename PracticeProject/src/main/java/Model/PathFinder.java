@@ -22,7 +22,7 @@ public class PathFinder {
         //возвращает имя класса, представленной этим объектом класса, в виде строки.
         //далее с помощью метода getObjectPoint создастся точка strat а затем и finish
         Point start = new Point(grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName()));
-        Point finish = new Point(grid.getObjectPoint(TheContentsOfTheCell.Goal.class.getName()));
+        Point finish = new Point(grid.getObjectPoint(TheContentsOfTheCell.Finish.class.getName()));
         Top finishTop = new Top(finish, null, null);
         Top startTop = new Top(start, null, null);
         Top temp = new Top(start, null, finishTop);

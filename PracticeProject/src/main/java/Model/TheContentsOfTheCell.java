@@ -1,17 +1,30 @@
 package Model;
 
 /*
-* это абстрактный класс, в котором будет ещё 5 классов:
-* Пустая клетка, клетка-блок, начало, финиш и клетка-путь,
-*  то есть каждая из них будет иметь свой цвет
-* и какой-то метод вывода клетки на экран)
-* */
-
-
+ * это абстрактный класс, в котором 4 класса:
+ * Пустая клетка, клетка-блок, начало, финиш,
+ *  то есть каждая из них будет иметь свой цвет
+ *
+ * */
 
 //----------------------------- Класс содержимого клетки -----------------------------
 public abstract class TheContentsOfTheCell {
-    public static class Empty extends ObstacleObject {
+    private boolean g_isObstacle;//есть препятствие или нет
+
+    public TheContentsOfTheCell(boolean isObstacle){
+        this.setObstacle(isObstacle);
+    }
+
+    public void setObstacle(boolean isObstacle){
+        this.g_isObstacle = isObstacle;
+    }
+
+    public boolean isObstacle(){
+        return this.g_isObstacle;
+    }
+
+
+    public static class Empty extends TheContentsOfTheCell {
         public Empty(){
             super(false);//вызывается конструктор родительского класса
             //МЫ ГОВОРИМ ЧТО КЛЕТКА ПУСТАЯ
@@ -19,7 +32,7 @@ public abstract class TheContentsOfTheCell {
 
     }
 
-    public static class Block extends ObstacleObject {
+    public static class Block extends TheContentsOfTheCell {
         public Block(){
             super(true);
             // МЫ ГОВОРИМ ЧТО КЛЕТКА !НЕ! ПУСТАЯ - блок
@@ -27,24 +40,19 @@ public abstract class TheContentsOfTheCell {
 
     }
 
-    public static class Start extends ObstacleObject {
+    public static class Start extends TheContentsOfTheCell {
         public Start(){
             super(false);
         }
 
     }
 
-    public static class Goal extends ObstacleObject {
-        public Goal(){
+    public static class Finish extends TheContentsOfTheCell {
+        public Finish(){
             super(false);
         }
 
     }
 
-    public static class Path extends ObstacleObject {
-        public Path(){
-            super(false);
-        }
 
-    }
 }

@@ -3,7 +3,7 @@ package Model;
 import java.awt.Point;
 //----------------------------- Класс сетки -----------------------------
 public class Grid {
-    private ObstacleObject g_grid[][];//сама сетка, сост. из объектов
+    private TheContentsOfTheCell g_grid[][];//сама сетка, сост. из объектов
     private int g_width;//ширина
     private int g_height;//высота
 
@@ -14,7 +14,7 @@ public class Grid {
     public void initGrid(int width, int height){
         this.setWidth(width);
         this.setHeight(height);
-        this.g_grid = new ObstacleObject[this.getHeight()][this.getWidth()];
+        this.g_grid = new TheContentsOfTheCell[this.getHeight()][this.getWidth()];
         //создали сетку и ниже инициализируем каждую клетку как пустую
         for(int y = 0; y < this.getHeight(); y++){
             for(int x = 0; x < this.getWidth(); x++){
@@ -29,12 +29,12 @@ public class Grid {
         this.setHeight(newGrid.length);
     }*/
 
-    public void setObject(int x, int y, ObstacleObject g){//меняем значение клетки с одного объекта на другой
+    public void setObject(int x, int y, TheContentsOfTheCell g){//меняем значение клетки с одного объекта на другой
         this.g_grid[y][x] = g;
     }
 
 
-    public ObstacleObject getObject(int x, int y){//ПОЛУЧИТЬ объект клетки
+    public TheContentsOfTheCell getObject(int x, int y){//ПОЛУЧИТЬ объект клетки
         return this.g_grid[y][x];
     }
 
@@ -44,8 +44,8 @@ public class Grid {
         Point p = null;
         for(int y = 0; y < this.getHeight(); y++){
             for(int x = 0; x < this.getWidth(); x++){
-            //оператор isInstance позволяет проверять,
-            //является ли объект g_grid[y][x] экземпляром класса, на который ссылается className
+                //оператор isInstance позволяет проверять,
+                //является ли объект g_grid[y][x] экземпляром класса, на который ссылается className
                 if(Class.forName(className).isInstance(this.getObject(x, y))){
                     return p = new Point(x, y);
                 }
@@ -76,5 +76,6 @@ public class Grid {
     public int getHeight(){
         return this.g_height;
     }
+
 
 }
