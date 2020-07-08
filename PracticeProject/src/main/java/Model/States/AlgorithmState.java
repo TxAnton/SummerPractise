@@ -16,13 +16,14 @@ public class AlgorithmState implements State{
 
     @Override
     public void nextStep() {
-        stepsView.set(indexStep++, model.Next());
-
+        if (indexStep != -1)
+            stepsView.set(indexStep++, model.Next());
     }
 
     @Override
     public void backStep() {
-        stepsView.set(--indexStep, model.Prev());
+        if (indexStep != 0)
+            stepsView.set(--indexStep, model.Prev());
     }
 
     @Override
@@ -41,25 +42,15 @@ public class AlgorithmState implements State{
     }
 
     @Override
-    public void showAlgorithm(){
-
-    }
-
-    @Override
     public void resetAlgorithm() {
-        close();
         model.Reset();
         indexStep = 0;
+        stepsView.clear();
     }
 
     @Override
     public String getStatus(){
         return "Выполнение алгоритма поиска пути.";
-    }
-
-    @Override
-    public void close(){
-
     }
 
     @Override

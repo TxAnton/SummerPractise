@@ -17,16 +17,10 @@ import java.awt.event.MouseEvent;
 
 public interface IController {
     void setGrid(int width, int height);
-    void setStartState();
-    void setFinishState();
-    void setStateOfAddingBlock();
-    void setStateOfDelete();
     void nextStep();
     void backStep();
-    void startAlgorithm();
     void resetAlgorithm();
-    void showAlgorithm();
-    void mousePressed(int posX, int posY);
+    void mousePressed(int posX, int posY, CellType type);
 //    void saveGraph();
 //    void loadGraph();
 }
