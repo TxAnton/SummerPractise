@@ -1,5 +1,6 @@
 package groupid1;
 
+import Controller.Controller;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,17 +12,22 @@ import javafx.fxml.*;
 
 import java.net.URL;
 
+import Model.*;
+
 
 /**
  * JavaFX App
  */
 public class App extends Application {
 
-    private static UIController controller;
+    private static UIController uiController;
+    private static Model model;
+    private static Controller controller;
+
 
     @Override
     public void start(Stage stage) throws IOException {
-        controller = new UIController();
+        uiController = new UIController();
         FXMLLoader loader;
         URL xmlUrl;
         Parent root;
@@ -32,14 +38,19 @@ public class App extends Application {
         System.out.println(getClass().getResource("/UI.FXML"));
         System.out.println(xmlUrl);
         loader.setLocation(xmlUrl);
-        loader.setController(controller);
+        loader.setController(uiController);
         //try {
             root = loader.load();
             stage.setScene(new Scene(root));
         //}catch (IOException e){System.err.println(e.toString()+"FOOO");};
 
 
-        controller.init();
+
+        model = new Model();
+        controller = new Controller(model,uiController);
+        uiController.setiController(controller);
+        uiController.init();
+        model.setVisualisator(uiController);
         stage.show();
 
 /*

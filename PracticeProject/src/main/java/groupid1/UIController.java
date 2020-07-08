@@ -15,6 +15,7 @@ import Model.States.Visualisator;
 import Model.TheContentsOfTheCell;
 import Model.Memento;
 
+import java.awt.*;
 import java.util.LinkedList;
 
 
@@ -23,20 +24,32 @@ public class UIController implements Visualisator {
     public void sendMemento(Memento memento) {
         assert (memento.getGrid().getHeight()==height);
         assert (memento.getGrid().getWidth()==width);
-
+        Grid grid = memento.getGrid();
         for(int i =0; i<width;i++){
-            for(int j =0; j<height;i++){
+            for(int j =0; j<height;j++){
                 TheContentsOfTheCell cell = memento.getObject(i,j);
-                if(cell.getCostFromStart()==0){
+                if(cell.getCostFromStart()==-1){
                     drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.START,true);
-                }else if ((cell.getCostToFinish()==0)){
+                }else if ((cell.getCostToFinish()==-1)){
                     drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.END,true);
                 }else if(cell.isObstacle()){
-                    drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.WALL,true);
+                    //drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.WALL,true);
+                    drawCell((int)i,(int)j, CellType.WALL,true);
                 } else if(true){
-                    drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.BLANK,true);
+                    drawCell((int)i,(int)j, CellType.BLANK,true);
                 }
             }
+        }
+        try {
+            Point st = grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName());
+            drawCell((int)st.getX(),(int)st.getY(), CellType.START,true);
+
+            Point fn = grid.getObjectPoint(TheContentsOfTheCell.Finish.class.getName());
+            drawCell((int)fn.getX(),(int)fn.getY(), CellType.END,true);
+        }catch (Exception e){
+            System.err.println(e);
+            System.err.println(e.getMessage());
+
         }
     }
 
@@ -47,7 +60,7 @@ public class UIController implements Visualisator {
         }
     }
 
-    enum CellType{
+    public enum CellType{
     BLANK,
     WALL,
     START,
@@ -56,6 +69,8 @@ public class UIController implements Visualisator {
     CLOSE,
     PATH
     }
+
+    CellType curType;
 
     IController iController;
 
@@ -91,9 +106,10 @@ public class UIController implements Visualisator {
     public Button buttonEnd;
     @FXML
     public Button buttonReset;
+    /*
     @FXML
     public Button buttonShow;
-
+*/
 
 
     public
@@ -113,6 +129,7 @@ public class UIController implements Visualisator {
     }
 
     public void init(){
+        curType=CellType.WALL;
         begun = false;
         width = 25;
         height = 20;
@@ -123,7 +140,7 @@ public class UIController implements Visualisator {
         if(isControllerSet()){
             iController.setGrid(width,height);
         }
-
+/*
         drawCell(0,0,CellType.BLANK,true);
         drawCell(1,0,CellType.WALL,true);
         drawCell(2,0,CellType.START,true);
@@ -131,6 +148,7 @@ public class UIController implements Visualisator {
         drawCell(4,0,CellType.OPEN,true);
         drawCell(5,0,CellType.CLOSE,true);
         drawCell(6,0,CellType.PATH,true);
+*/
     }
 
     private void drawGrid(){
@@ -163,41 +181,41 @@ public class UIController implements Visualisator {
 
         GraphicsContext gc  =mainCanvas.getGraphicsContext2D();
 */
-        drawCell((int)(event.getX()/tile),(int)(event.getY()/tile), CellType.WALL,true);
+        //drawCell((int)(event.getX()/tile),(int)(event.getY()/tile), CellType.PATH,true);
 
-        if(isControllerSet())iController.mousePressed((int)(event.getX()/tile),(int)(event.getY()/tile));
+        if(isControllerSet())iController.mousePressed((int)(event.getX()/tile),(int)(event.getY()/tile),curType);
 
     }
 
     @FXML
     public void OnButtonBlankClicked(){
-        if(isControllerSet())iController.setStateOfDelete();
+        curType = CellType.BLANK;
+        //iController.mousePressed();
+        //if(isControllerSet())iController.setStateOfDelete();
 
     }
     @FXML
     public void OnButtonWallClicked(){
-        if(isControllerSet())iController.setStateOfAddingBlock();
+        curType = CellType.WALL;
+//        if(isControllerSet())iController.setStateOfAddingBlock();
 
     }
     @FXML
     public void OnButtonStartClicked(){
-        if(isControllerSet())iController.setStartState();
+        curType = CellType.START;
+        //if(isControllerSet())iController.setStartState();
 
     }
     @FXML
     public void OnButtonEndClicked(){
-        if(isControllerSet())iController.setFinishState();
+        curType = CellType.END;
+        //if(isControllerSet())iController.setFinishState();
 
     }
 
     @FXML
     public void OnNextClicked(){
-        if(!begun){
-            if(isControllerSet()) {
-                iController.startAlgorithm();
-                iController.nextStep();
-            }
-        }else{
+        if(isControllerSet()){
             iController.nextStep();
         }
         //System.out.println("OnNextClicked()");
@@ -211,27 +229,19 @@ public class UIController implements Visualisator {
 
     @FXML
     public void OnResetClicked(){
-        if(begun){
-            begun=false;
-            if(isControllerSet())iController.resetAlgorithm();
-        }
+        if(isControllerSet())iController.resetAlgorithm();
+
 
     }
 
-    @FXML
-    public void OnShowClicked(){
-        if(isControllerSet())iController.showAlgorithm();
 
-    }
 
 
     private void drawCell(int x, int y, CellType cellType, boolean withStroke){
-
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
         gc.setLineWidth(lineWidth);
         gc.setStroke(Color.BLACK);
         switch (cellType){
-
 
             case BLANK:
                 gc.setFill(Color.DARKBLUE);

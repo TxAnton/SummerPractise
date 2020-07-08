@@ -18,9 +18,7 @@ public interface State {
     void nextStep();
     void backStep();
     void startAlgorithm();
-    void showAlgorithm();
     void resetAlgorithm();
     String getStatus();
-    void close();
     void mousePressed(int posX, int posY);
 }

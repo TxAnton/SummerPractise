@@ -26,18 +26,12 @@ public class AddingState implements State{
     public void startAlgorithm(){}
 
     @Override
-    public void showAlgorithm(){}
-
-    @Override
     public void resetAlgorithm(){}
 
     @Override
     public String getStatus(){
-        return "Кликните на рабочую область, чтобы установить стену";
+        return ("Кликните на рабочую область, чтобы установить клетку " + type);
     }
-
-    @Override
-    public void close(){}
 
     @Override
     public void mousePressed(int posX, int posY) {
