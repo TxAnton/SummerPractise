@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="654.0" prefWidth="911.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Canvas id="mainCanvas" fx:id="mainCanvas" height="572.0" onMouseClicked="#OnCanvasClicked" width="767.0" />
+            <VBox prefHeight="160.0" prefWidth="179.0">
+               <children>
+                  <Button fx:id="buttonBlank" mnemonicParsing="false" onAction="#OnButtonBlankClicked" text="BlankCell" />
+                  <Button fx:id="buttonWall" mnemonicParsing="false" onAction="#OnButtonWallClicked" text="WallCell" />
+                  <Button fx:id="ButtonStart" mnemonicParsing="false" onAction="#OnButtonStartClicked" text="StartCell" />
+                  <Button fx:id="buttonEnd" mnemonicParsing="false" onAction="#OnButtonEndClicked" text="EndCell" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" snapToPixel="false">
+        <buttons>
+          <Button fx:id="prevButton" mnemonicParsing="false" onAction="#OnPrevClicked" text="Prev step" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#OnNextClicked" text="Next step" />
+            <Button fx:id="buttonReset" mnemonicParsing="false" onAction="#OnResetClicked" text="Reset" />
+            <Button fx:id="buttonShow" mnemonicParsing="false" onAction="#OnShowClicked" text="Show" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</VBox>
