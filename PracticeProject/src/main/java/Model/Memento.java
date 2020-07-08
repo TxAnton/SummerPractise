@@ -23,4 +23,9 @@ public class Memento implements IMemento {
     public TheContentsOfTheCell getObject(int x, int y){
         return this.m_grid[y][x];
     }
+
+    //закр откр начало или конец
+
+    //public TheContentsOfTheCell get
+
 }

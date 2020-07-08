@@ -105,6 +105,13 @@ public class TheContentsOfTheCell {
 
     }
 
+    public static class Open extends TheContentsOfTheCell {
+        public Open(Point location){
+            super(location,false);
+
+        }
+    }
+
     public static class Close extends TheContentsOfTheCell {
 
         public Close(Point location){
@@ -139,4 +146,5 @@ public class TheContentsOfTheCell {
 
         }
     }
+
 }

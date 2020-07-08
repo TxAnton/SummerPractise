@@ -2,7 +2,7 @@ package Model;
 
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.List;
+import Model.States.Visualisator;
 
 public class Model {
     private Grid g_grid;
@@ -10,8 +10,11 @@ public class Model {
     private LinkedList g_path;
     private LinkedList<Memento> mem; //это будет массив снимков
     private int cur;//индекс снимка
-    private static final int WIDTH = 15;
-    private static final int HEIGHT = 15;
+    private static final int WIDTH = 25;
+    private static final int HEIGHT = 20;
+    public Visualisator visualisator;
+
+
 
     public void createDefault() {//создается поле по умолчанию
         this.g_grid = new Grid(Model.WIDTH, Model.HEIGHT);
@@ -34,7 +37,7 @@ public class Model {
             this.g_grid.setObject(x,y, start);
         }
         else if(className.equals("Finish")){
-            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location);
+            TheContentsOfTheCell finish = new Model.TheContentsOfTheCell.Open(location);
             this.g_grid.setObject(x,y, finish);
         }
         else if(className.equals("Block")){
@@ -52,22 +55,31 @@ public class Model {
         this.g_finder = new PathFinder();//вызвали конструктор
         this.g_path = this.g_finder.findPath(this.g_grid);//вызвали метод и нашли путь
         this.mem = this.g_finder.getHistory();//получаем mementos
+        visualisator.sendPath(this.g_path);
         //this.mem.add(new Memento(this.g_grid));
 
     }
 
     public void Reset(){
+        visualisator.sendMemento(mem.get(0));
         this.mem.clear();
+
         //потом: возвращает поле изначальное Антону
     }
 
     public Memento Next(){
-        return this.mem.get(++this.cur);
+        visualisator.sendMemento(mem.get(++this.cur));
+        if(cur == this.mem.size()-1){
+            visualisator.sendPath(this.g_path);
+        }
+        return this.mem.get(this.cur);
+
     }
 
     public Memento Prev(){
         if(this.cur != 0) {
-            return this.mem.get(--this.cur);
+            visualisator.sendMemento(mem.get(--this.cur));
+            return this.mem.get(this.cur);
         }
         return null;
     }

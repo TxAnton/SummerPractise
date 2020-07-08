@@ -28,10 +28,10 @@ public class PathFinder {
         //возвращает имя класса, представленной этим объектом класса, в виде строки.
         //далее с помощью метода getObjectPoint создастся точка strat а затем и finish
         Point start = new Point(grid.getObjectPoint(TheContentsOfTheCell.Close.class.getName()));
-        Point finish = new Point(grid.getObjectPoint(TheContentsOfTheCell.Finish.class.getName()));
-        TheContentsOfTheCell finishTop = new TheContentsOfTheCell(finish, false);
-        TheContentsOfTheCell startTop = new TheContentsOfTheCell(start, false);
-        TheContentsOfTheCell temp = new TheContentsOfTheCell(start, false);
+        Point finish = new Point(grid.getObjectPoint(Model.TheContentsOfTheCell.Open.class.getName()));
+        TheContentsOfTheCell finishTop = new TheContentsOfTheCell.Finish(finish);
+        TheContentsOfTheCell startTop = new TheContentsOfTheCell.Start(start);
+        TheContentsOfTheCell temp = new TheContentsOfTheCell.Open(start);
 
 
         this.g_openList.add(temp);//добавляем в список откр вершин начальную вершину
@@ -76,7 +76,7 @@ public class PathFinder {
                         //пропускаем самого себя
                     }
                     else if(!grid.getObject(newX, newY).isObstacle()){//если в ячейке нет БЛОКА
-                        TheContentsOfTheCell top = new TheContentsOfTheCell(new Point(newX, newY), false);//создаем новую вершину,
+                        TheContentsOfTheCell top = new TheContentsOfTheCell.Open(new Point(newX, newY));//создаем новую вершину,
                         top.set(parent, finish);
                         // которую мы рассматриваем
                         int index = this.openListIndexOf(top);//получаем её индекс в открытом списке
@@ -91,6 +91,8 @@ public class PathFinder {
                             }
                         }
                         else{
+                            TheContentsOfTheCell open = new TheContentsOfTheCell.Close(top.getLocation());
+                            grid.setObject(top.getLocation().x,top.getLocation().y,open);
                             this.g_openList.add(top);//если вершины не было, то добавляем в откр список её
                         }
                     }
