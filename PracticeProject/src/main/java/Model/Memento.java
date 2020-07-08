@@ -14,7 +14,6 @@ public class Memento implements IMemento {
         for(int y = 0; y < grid.getHeight(); y++)
             for(int x = 0; x < grid.getWidth(); x++)
                 this.m_grid[y][x] = grid.getObject(x,y);
-        previous.setGrid(m_grid);
     }
 
     public Grid getGrid(){
