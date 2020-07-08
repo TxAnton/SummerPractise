@@ -3,6 +3,7 @@ package Model;
 import java.awt.*;
 import java.util.LinkedList;
 import Model.States.Visualisator;
+import Model.TheContentsOfTheCell;
 
 public class Model {
     private Grid g_grid;
@@ -12,8 +13,20 @@ public class Model {
     private int cur;//индекс снимка
     private static final int WIDTH = 25;
     private static final int HEIGHT = 20;
+
+    public Visualisator getVisualisator() {
+        return visualisator;
+    }
+
+    public void setVisualisator(Visualisator visualisator) {
+        this.visualisator = visualisator;
+    }
+
     public Visualisator visualisator;
 
+    public Model() {
+        createDefault();
+    }
 
 
     public void createDefault() {//создается поле по умолчанию
@@ -33,11 +46,11 @@ public class Model {
         Point location = new Point(x,y);
 
         if(className.equals("Start")){
-            TheContentsOfTheCell start = new TheContentsOfTheCell.Close(location);
+            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location);
             this.g_grid.setObject(x,y, start);
         }
         else if(className.equals("Finish")){
-            TheContentsOfTheCell finish = new Model.TheContentsOfTheCell.Open(location);
+            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location);
             this.g_grid.setObject(x,y, finish);
         }
         else if(className.equals("Block")){
@@ -48,6 +61,8 @@ public class Model {
             TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(location);
             this.g_grid.setObject(x,y, empty);
         }
+
+        visualisator.sendMemento(new Memento(g_grid));
 
     }
 

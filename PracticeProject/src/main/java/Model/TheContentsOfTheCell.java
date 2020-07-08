@@ -49,7 +49,9 @@ public class TheContentsOfTheCell {
         float x = this.g_location.x - parent.g_location.x;
         float y = this.g_location.y - parent.g_location.y;
         float sum = (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        sum += this.getParent().getCostFromStart();
+        if(this.getParent()!=null) {
+            sum += this.getParent().getCostFromStart();
+        }
         return sum;
     }
 

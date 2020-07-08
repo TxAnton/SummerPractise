@@ -18,17 +18,17 @@ public class PathFinder {
 
     public LinkedList findPath(Grid grid1) throws NullPointerException, ClassNotFoundException{
         Grid grid = grid1;
-
-        this.g_openList.clear();//очищаем списки
-        this.g_closedList.clear();
-        history.clear();
-
+/*
+        if(!this.g_openList.isEmpty())this.g_openList.clear();//очищаем списки
+        if(!this.g_closedList.isEmpty())this.g_closedList.clear();
+        if(!this.history.isEmpty())history.clear();
+*///TODO WTF????
         //небольшое уточнение
         //TheContentsOfTheCell.Start.class.getName() -
         //возвращает имя класса, представленной этим объектом класса, в виде строки.
         //далее с помощью метода getObjectPoint создастся точка strat а затем и finish
-        Point start = new Point(grid.getObjectPoint(TheContentsOfTheCell.Close.class.getName()));
-        Point finish = new Point(grid.getObjectPoint(Model.TheContentsOfTheCell.Open.class.getName()));
+        Point start = new Point(grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName()));
+        Point finish = new Point(grid.getObjectPoint(TheContentsOfTheCell.Finish.class.getName()));
         TheContentsOfTheCell finishTop = new TheContentsOfTheCell.Finish(finish);
         TheContentsOfTheCell startTop = new TheContentsOfTheCell.Start(start);
         TheContentsOfTheCell temp = new TheContentsOfTheCell.Open(start);

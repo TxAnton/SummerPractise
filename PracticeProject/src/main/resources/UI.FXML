@@ -24,7 +24,6 @@
           <Button fx:id="prevButton" mnemonicParsing="false" onAction="#OnPrevClicked" text="Prev step" />
             <Button fx:id="nextButton" mnemonicParsing="false" onAction="#OnNextClicked" text="Next step" />
             <Button fx:id="buttonReset" mnemonicParsing="false" onAction="#OnResetClicked" text="Reset" />
-            <Button fx:id="buttonShow" mnemonicParsing="false" onAction="#OnShowClicked" text="Show" />
         </buttons>
       </ButtonBar>
    </children>
