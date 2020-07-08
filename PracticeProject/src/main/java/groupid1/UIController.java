@@ -162,9 +162,9 @@ public class UIController implements Visualisator {
         System.out.println(Math.min((int)mainCanvas.getWidth()/width,(int)mainCanvas.getHeight()/height));
 
         GraphicsContext gc  =mainCanvas.getGraphicsContext2D();
-
-        drawCell((int)(event.getX()/tile),(int)(event.getY()/tile), CellType.WALL,true);
 */
+        drawCell((int)(event.getX()/tile),(int)(event.getY()/tile), CellType.WALL,true);
+
         if(isControllerSet())iController.mousePressed((int)(event.getX()/tile),(int)(event.getY()/tile));
 
     }
@@ -197,6 +197,8 @@ public class UIController implements Visualisator {
                 iController.startAlgorithm();
                 iController.nextStep();
             }
+        }else{
+            iController.nextStep();
         }
         //System.out.println("OnNextClicked()");
     }
