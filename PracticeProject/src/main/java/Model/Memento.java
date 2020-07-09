@@ -1,10 +1,13 @@
 package Model;
 
+import java.util.LinkedList;
+
 public class Memento implements IMemento {
     private final Grid previous;
     private final TheContentsOfTheCell m_grid[][];
     private final int m_width;//ширина
     private final int m_height;//высота
+    //private LinkedList open;
 
     public Memento(Grid grid){//конструктор
         this.previous = grid;

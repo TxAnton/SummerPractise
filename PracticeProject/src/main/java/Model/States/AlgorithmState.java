@@ -16,14 +16,20 @@ public class AlgorithmState implements State{
 
     @Override
     public void nextStep() {
-        if (indexStep != -1)
-            stepsView.set(indexStep++, model.Next());
+        if (indexStep != -1) {
+            indexStep++;
+            model.Next();
+        }
+            //stepsView.set(indexStep++, model.Next());
     }
 
     @Override
     public void backStep() {
-        if (indexStep != 0)
-            stepsView.set(--indexStep, model.Prev());
+        if (indexStep != 0) {
+            --indexStep;
+            model.Prev();
+        }
+            //stepsView.set(--indexStep, model.Prev());
     }
 
     @Override
@@ -45,7 +51,7 @@ public class AlgorithmState implements State{
     public void resetAlgorithm() {
         model.Reset();
         indexStep = 0;
-        stepsView.clear();
+        //stepsView.clear();
     }
 
     @Override

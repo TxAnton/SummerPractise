@@ -3,7 +3,6 @@ package Model;
 import java.awt.*;
 import java.util.LinkedList;
 import Model.States.Visualisator;
-import Model.TheContentsOfTheCell;
 
 public class Model {
     private Grid g_grid;
@@ -32,6 +31,7 @@ public class Model {
     public void createDefault() {//создается поле по умолчанию
         this.g_grid = new Grid(Model.WIDTH, Model.HEIGHT);
         this.cur = 0;
+        //visualisator.sendMemento(new Memento(g_grid));
 
     }
 
@@ -46,19 +46,19 @@ public class Model {
         Point location = new Point(x,y);
 
         if(className.equals("Start")){
-            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location);
+            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
             this.g_grid.setObject(x,y, start);
         }
         else if(className.equals("Finish")){
-            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location);
+            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
             this.g_grid.setObject(x,y, finish);
         }
         else if(className.equals("Block")){
-            TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location);
+            TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location, null, null);
             this.g_grid.setObject(x,y, block);
         }
         else {
-            TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(location);
+            TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(location, null, null);
             this.g_grid.setObject(x,y, empty);
         }
 
@@ -82,12 +82,30 @@ public class Model {
         //потом: возвращает поле изначальное Антону
     }
 
-    public Memento Next(){
-        visualisator.sendMemento(mem.get(++this.cur));
-        if(cur == this.mem.size()-1){
+    public void Next() {
+
+        this.cur++;
+
+
+        if(this.cur == this.mem.size()-1){
+            /*try {
+                this.g_finder = new PathFinder();//вызвали конструктор
+                this.g_path = this.g_finder.findPath(this.g_grid);
+            }
+            catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }*/
+
+            //System.out.println(this.g_path);
             visualisator.sendPath(this.g_path);
+            //System.exit(0);
         }
-        return this.mem.get(this.cur);
+        else if (this.cur < this.mem.size()-1){
+            visualisator.sendMemento(mem.get(this.cur));
+        }
+
+
+        //return this.mem.get(this.cur);
 
     }
 

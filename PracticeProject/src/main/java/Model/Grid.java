@@ -18,7 +18,7 @@ public class Grid {
         //создали сетку и ниже инициализируем каждую клетку как пустую
         for(int y = 0; y < this.getHeight(); y++){
             for(int x = 0; x < this.getWidth(); x++){
-                this.g_grid[y][x] = new TheContentsOfTheCell.Empty(new Point(x,y));
+                this.g_grid[y][x] = new TheContentsOfTheCell.Empty(new Point(x,y),null, null);
             }
         }
     }

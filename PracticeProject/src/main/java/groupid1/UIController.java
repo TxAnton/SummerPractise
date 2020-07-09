@@ -35,12 +35,35 @@ public class UIController implements Visualisator {
                 }else if(cell.isObstacle()){
                     //drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.WALL,true);
                     drawCell((int)i,(int)j, CellType.WALL,true);
-                } else if(true){
+                }
+
+                else if(cell.getType() == 6){
+                    drawCell((int)i,(int)j, CellType.CLOSE,true);
+                }
+
+                else if(cell.getType() == 3){
+                    drawCell((int)i,(int)j, CellType.START,true);
+                }
+
+                else if(cell.getType() == 4){
+                    drawCell((int)i,(int)j, CellType.END,true);
+                }
+
+                else if(cell.getType() == 5){
+                    drawCell((int)i,(int)j, CellType.OPEN,true);
+                }
+
+                /*else if(cell.getType() == 7){
+                    drawCell((int)i,(int)j, CellType.PATH,true);
+                }*/
+
+                else if(true){
                     drawCell((int)i,(int)j, CellType.BLANK,true);
                 }
+
             }
         }
-        try {
+        /*try {
             Point st = grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName());
             drawCell((int)st.getX(),(int)st.getY(), CellType.START,true);
 
@@ -50,7 +73,7 @@ public class UIController implements Visualisator {
             System.err.println(e);
             System.err.println(e.getMessage());
 
-        }
+        }*/
     }
 
     @Override
