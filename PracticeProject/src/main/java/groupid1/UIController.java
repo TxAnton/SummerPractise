@@ -28,6 +28,7 @@ import javafx.util.Duration;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 
@@ -69,9 +70,12 @@ public class UIController implements Visualisator {
     public Button buttonEnd;
     @FXML
     public Button buttonReset;
+
     int height;
     double lineWidth;
     double tile;
+    Point pressPoint;
+    Point releasePoint;
     CellType curType;
     IController iController;
     //--------Interface implementation
@@ -89,7 +93,7 @@ public class UIController implements Visualisator {
     @Override
     public void sendPath(LinkedList<TheContentsOfTheCell> path) {
         for (TheContentsOfTheCell cell : path) {
-            drawCell((int) cell.getLocation().getX(), (int) cell.getLocation().getY(), CellType.PATH, true);
+            drawCell((int) cell.getLocation().getX(), (int) cell.getLocation().getY(), CellType.PATH);
 
 
             TheContentsOfTheCell parent = cell.getParent();
@@ -119,15 +123,15 @@ public class UIController implements Visualisator {
                 TheContentsOfTheCell cell = memento.getObject(i, j);
                 if (cell.isObstacle()) {
                     //drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.WALL,true);
-                    drawCell((int) i, (int) j, CellType.WALL, true);
+                    drawCell((int) i, (int) j, CellType.WALL);
                 } else if (cell.getType() == 6) {
-                    drawCell((int) i, (int) j, CellType.CLOSE, true);
+                    drawCell((int) i, (int) j, CellType.CLOSE);
                 } else if (cell.getType() == 3) {
-                    drawCell((int) i, (int) j, CellType.START, true);
+                    drawCell((int) i, (int) j, CellType.START);
                 } else if (cell.getType() == 4) {
-                    drawCell((int) i, (int) j, CellType.END, true);
+                    drawCell((int) i, (int) j, CellType.END);
                 } else if (cell.getType() == 5) {
-                    drawCell((int) i, (int) j, CellType.OPEN, true);
+                    drawCell((int) i, (int) j, CellType.OPEN);
                 }
 
                 /*else if(cell.getType() == 7){
@@ -135,7 +139,7 @@ public class UIController implements Visualisator {
                 }*/
 
                 else if (true) {
-                    drawCell((int) i, (int) j, CellType.BLANK, true);
+                    drawCell((int) i, (int) j, CellType.BLANK);
                 }
 
             }
@@ -376,6 +380,55 @@ public class UIController implements Visualisator {
         }
     }
 
+    @FXML
+    public void OnCanvasPressed(javafx.scene.input.MouseEvent event) {
+        if (curType != CellType.END && curType != CellType.START)
+            pressPoint = new Point((int) event.getX(), (int) event.getY());
+    }
+
+    @FXML
+    public void OnCanvasReleased(javafx.scene.input.MouseEvent event) {
+        if (pressPoint != null) {
+            releasePoint = new Point((int) event.getX(), (int) event.getY());
+            /*
+            pressPoint=new Point((int)(pressPoint.x),(int)(pressPoint.y));
+            releasePoint=new Point((int)(releasePoint.x),(int)(releasePoint.y));
+            */
+
+            int steps = (int) (mainCanvas.getHeight() + mainCanvas.getWidth());
+            double r = 1;
+            HashSet<Point> s = new HashSet<Point>();
+
+            for (int i = 0; i <= steps; i++) {
+                double ratio = ((double) i) / steps;
+                double dx = releasePoint.getX() - pressPoint.getX();
+                double dy = releasePoint.getY() - pressPoint.getY();
+
+                Point cur = new Point((int) pressPoint.getX(), (int) pressPoint.getY());
+                cur = new Point((int) (cur.getX() + (dx * ratio)), (int) (cur.getY() + (dy * ratio)));
+                Point pt = new Point((int) (cur.getX() / tile), (int) (cur.getY() / tile));
+                if (!s.contains(pt)) {
+                    s.add(pt);
+                    iController.mousePressed((int) pt.getX(), (int) pt.getY(), curType);
+                }
+                //iController.mousePressed((int) (cur.getX() / tile), (int) (cur.getY() / tile), curType);
+
+                /*
+                for(int xx=(int)(cur.getX()-r);xx<=cur.getX()+r;xx++){
+                    for(int yy=(int)(cur.getY()-r);yy<=cur.getY()+r;yy++){
+
+                    }
+                }
+
+                 */
+            }
+
+
+            pressPoint = releasePoint = null;
+        }
+
+    }
+
     private void drawGrid() {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
         gc.setLineWidth(lineWidth);
@@ -427,7 +480,7 @@ public class UIController implements Visualisator {
         gc.setTransform(tr);
     }
 
-    private void drawCell(int x, int y, CellType cellType, boolean withStroke) {
+    private void drawCell(int x, int y, CellType cellType) {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
         gc.setLineWidth(lineWidth);
         gc.setStroke(Color.BLACK);
@@ -456,7 +509,7 @@ public class UIController implements Visualisator {
                 break;
         }
         gc.fillRect(x * tile, y * tile, tile, tile);
-        if (withStroke) gc.strokeRect(x * tile, y * tile, tile, tile);
+        if (true) gc.strokeRect(x * tile, y * tile, tile, tile);
         //drawGrid();
     }
 
