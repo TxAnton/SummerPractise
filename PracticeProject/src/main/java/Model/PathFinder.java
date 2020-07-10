@@ -116,7 +116,7 @@ public class PathFinder {
                 catch(ArrayIndexOutOfBoundsException ae){//учитываем ошибку:
                     //когда мы пытаемся обратиться к элементу массива
                     //по отрицательному или превышающему размер массива индексу
-                    System.err.println(ae);
+                    //System.err.println(ae);
                 }
             }
         }
