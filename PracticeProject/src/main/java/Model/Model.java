@@ -160,10 +160,10 @@ public class Model {
     public void loadGraph(String fileName){
         try {
             FileReader reader = new FileReader(fileName);
-            int c;
-            int width = (char)reader.read();
+            char c;
+            int width = reader.read();
             c = (char)reader.read();
-            int height = (char)reader.read();
+            int height = reader.read();
             c = (char)reader.read();
             createGrid(width,height);
             for(int y = 0; y < height; y++) {
