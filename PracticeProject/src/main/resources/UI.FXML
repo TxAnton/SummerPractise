@@ -31,7 +31,8 @@
        </MenuBar>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Canvas id="mainCanvas" fx:id="mainCanvas" height="572.0" onMouseClicked="#OnCanvasClicked" width="767.0" />
+             <Canvas id="mainCanvas" fx:id="mainCanvas" height="619.0" onMouseClicked="#OnCanvasClicked"
+                     onMousePressed="#OnCanvasPressed" onMouseReleased="#OnCanvasReleased" width="767.0"/>
             <VBox prefHeight="160.0" prefWidth="179.0">
                <children>
                    <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="427.0" prefWidth="152.0">
