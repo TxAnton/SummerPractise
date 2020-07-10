@@ -220,7 +220,7 @@ public class UIController implements Visualisator {
 
     @FXML
     public void OnOpenClicked() {
-        if (isControllerSet()) iController.loadGraph();
+        if (isControllerSet()) iController.loadGrid();
     }
 
 
@@ -285,7 +285,7 @@ public class UIController implements Visualisator {
 
     @FXML
     public void OnSaveClicked() {
-        if (isControllerSet()) iController.saveGraph();
+        if (isControllerSet()) iController.saveGrid();
     }
 
     @FXML

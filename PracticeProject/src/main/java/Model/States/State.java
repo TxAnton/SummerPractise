@@ -20,5 +20,7 @@ public interface State {
     void startAlgorithm();
     void resetAlgorithm();
     String getStatus();
+    void loadGrid();
+    void saveGrid();
     void mousePressed(int posX, int posY);
 }
