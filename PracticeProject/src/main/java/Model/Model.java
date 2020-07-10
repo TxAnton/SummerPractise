@@ -152,8 +152,6 @@ public class Model {
             }
         }
         return grid;
-
-
     }
 
     public void Reset(){
@@ -237,27 +235,36 @@ public class Model {
     public void saveGraph(String fileName){
         try {
             FileWriter writer = new FileWriter(fileName, false);
-            writer.write(g_grid.getWidth());
+            writer.write(mem.get(cur).getGrid().getWidth());
             writer.append('\n');
-            writer.write(g_grid.getHeight());
+            writer.write(mem.get(cur).getGrid().getHeight());
             writer.append('\n');
-            for(int y = 0; y < g_grid.getHeight(); y++) {
-                for (int x = 0; x < g_grid.getWidth(); x++) {
-                    switch (g_grid.getObject(x,y).getType()) {
+            writer.write(this.cur);
+            writer.append('\n');
+            for(int y = 0; y < mem.get(cur).getGrid().getHeight(); y++) {
+                for (int x = 0; x < mem.get(cur).getGrid().getWidth(); x++) {
+                    switch (mem.get(cur).getObject(x,y).getType()) {
                         case 1:
                             writer.append(' ');
+                            break;
                         case 2:
                             writer.append('#');
+                            break;
                         case 3:
                             writer.append('s');
+                            break;
                         case 4:
                             writer.append('f');
+                            break;
                         case 5:
                             writer.append('+');
+                            break;
                         case 6:
                             writer.append('-');
+                            break;
                         case 7:
                             writer.append('x');
+                            break;
                     }
                 }
                 writer.append('\n');
@@ -267,51 +274,73 @@ public class Model {
         } catch (IOException e){
 
         }
-
     }
 
     public void loadGraph(String fileName){
+        if (this.cur != 0) {
+            this.g_grid = cleanGrid(g_grid);
+            this.mem.clear();
+            this.g_path.clear();
+            this.cur = 0;
+        }
         try {
             FileReader reader = new FileReader(fileName);
             char c;
             int width = reader.read();
-            c = (char)reader.read();
+            c = (char) reader.read();
             int height = reader.read();
-            c = (char)reader.read();
-            createGrid(width,height);
-            for(int y = 0; y < height; y++) {
+            c = (char) reader.read();
+            int current = reader.read();
+            c = (char) reader.read();
+            createGrid(width, height);
+            for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    Point location = new Point(x,y);
-                    c = (char)reader.read();
+                    Point location = new Point(x, y);
+                    c = (char) reader.read();
                     switch (c) {
                         case ' ':
                             TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(location, null, null);
-                            g_grid.setObject(x,y,empty);
-                        case '#':
-                            TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location, null, null);
-                            g_grid.setObject(x,y,block);
-                        case 's':
-                            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
-                            g_grid.setObject(x,y,start);
-                        case 'f':
-                            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
-                            g_grid.setObject(x,y,finish);
+                            g_grid.setObject(x, y, empty);
+                            break;
                         case '+':
                             TheContentsOfTheCell open = new TheContentsOfTheCell.Open(location, null, null);
-                            g_grid.setObject(x,y,open);
+                            g_grid.setObject(x, y, open);
+                            break;
+                        case '#':
+                            TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location, null, null);
+                            g_grid.setObject(x, y, block);
+                            break;
+                        case 's':
+                            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
+                            g_grid.setObject(x, y, start);
+                            break;
+                        case 'f':
+                            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
+                            g_grid.setObject(x, y, finish);
+                            break;
                         case '-':
                             TheContentsOfTheCell close = new TheContentsOfTheCell.Close(location, null, null);
-                            g_grid.setObject(x,y,close);
+                            g_grid.setObject(x, y, close);
+                            break;
                         case 'x':
                             TheContentsOfTheCell path = new TheContentsOfTheCell.Path(location, null, null);
-                            g_grid.setObject(x,y,path);
+                            g_grid.setObject(x, y, path);
+                            break;
                     }
                 }
-                c = (char)reader.read();
+                c = (char) reader.read();
             }
             reader.close();
-            visualisator.sendMemento(new Memento(g_grid));
-        } catch (IOException e){
+            if (current != 0) {
+                try {
+                    Execute();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                this.cur = current;
+                visualisator.sendMemento(mem.get(cur));
+            }
+        }catch (IOException e) {
 
         }
     }

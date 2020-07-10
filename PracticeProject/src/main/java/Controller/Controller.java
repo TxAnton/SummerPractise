@@ -3,10 +3,6 @@ import Model.Model;
 import Model.States.*;
 import groupid1.UIController;
 
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-
 public class Controller implements IController{
     private final Model model;
     private final Visualisator view;
@@ -41,6 +37,7 @@ public class Controller implements IController{
     public void backStep() {
         if (isAlgorithmStart)
             currentState.backStep();
+
         //view.setLabelHelp(currentState.getStatus());
     }
 
@@ -75,8 +72,8 @@ public class Controller implements IController{
     }
 
     @Override
-    public void saveGraph() {
-        model.saveGraph("save.txt");
+    public void saveGrid() {
+        currentState.saveGrid();
         /*
         File file = view.showFileChooserDialog("Сохранить граф");
         if (file != null) {
@@ -90,17 +87,11 @@ public class Controller implements IController{
     }
 
     @Override
-    public void loadGraph() {
-        model.loadGraph("save.txt");
-        /*
-        File file = view.showFileChooserDialog("Загрузить граф");
-        if (file != null) {
-            try {
-                model.loadGraph(file.getAbsoluteFile().toString());
-            } catch (Exception e) {
-                //view.showErrorDialog("Ошибка", "Не удалось загрузить граф. Попробуйте еще раз!");
-            }
-        }
-        */
+    public void loadGrid() {
+        currentState = new AlgorithmState(model,view);
+        currentState.loadGrid();
+        //currentState.startAlgorithm();
+        isAlgorithmStart = true;
+
     }
 }
