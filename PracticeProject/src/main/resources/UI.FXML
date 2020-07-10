@@ -78,8 +78,8 @@
                            <Label text="Step"/>
                            <ToggleButton fx:id="buttonPlay" mnemonicParsing="false" onMouseClicked="#OnPlayClicked"
                                          text="Play"/>
-                           <CheckBox fx:id="checkBoxForward" mnemonicParsing="false" text="Forward"/>
-                           <TextField fx:id="textStep" text="1000"/>
+                           <CheckBox fx:id="checkBoxForward" mnemonicParsing="false" selected="true" text="Forward"/>
+                           <TextField fx:id="textStep" text="100"/>
                        </children>
                    </VBox>
                </children>

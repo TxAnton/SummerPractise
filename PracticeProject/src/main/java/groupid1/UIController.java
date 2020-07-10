@@ -25,6 +25,7 @@ import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -124,6 +125,38 @@ public class UIController implements Visualisator {
             }
         }
 
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                TheContentsOfTheCell cell = memento.getObject(i, j);
+                if (cell.getParent() != null) {
+
+                    TheContentsOfTheCell parent = cell.getParent();
+                    Point loc = cell.getLocation();
+                    Point ploc = parent.getLocation();
+/*
+                    double q = 0.05;
+                    var vecPL = loc;vecPL.translate((int)-ploc.getX(),(int)-ploc.getY());
+                    var d = Point.distance(loc.getX(),loc.getY(),ploc.getX(),ploc.getY());
+                    vecPL.x = (int)(vecPL.x / d);
+                    vecPL.y = (int)(vecPL.y / d);
+                    vecPL.x = (int)(vecPL.x * q);
+                    vecPL.y = (int)(vecPL.y * q);
+                    loc.translate((int)vecPL.getX(),(int)vecPL.getY());
+                    ploc.translate((int)-vecPL.getX(),(int)-vecPL.getY());
+
+ */
+
+                    drawArrow((int) ((i + 1) * tile - tile / 2), (int) ((j + 1) * tile - tile / 2), (int) ((ploc.getX() + 1) * tile - tile / 2), (int) ((ploc.getY() + 1) * tile - tile / 2), Color.DARKGRAY);
+                }
+
+            }
+        }
+
+
+
+
+
+
 
         /*try {
             Point st = grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName());
@@ -174,7 +207,7 @@ public class UIController implements Visualisator {
             iController.setGrid(width, height);
         }
 
-        drawArrow(5, 5, 50, 50, Color.BLUE);
+        //drawArrow(5, 5, 50, 50, Color.BLUE);
 
 
     }
@@ -378,7 +411,7 @@ public class UIController implements Visualisator {
 
         double dx = x2 - x1, dy = y2 - y1;
         double angle = Math.atan2(dy, dx);
-        int len = (int) Math.sqrt(dx * dx + dy * dy);
+        int len = (int) (Math.sqrt(dx * dx + dy * dy) * 0.90);
 
         Transform transform = Transform.translate(x1, y1);
         transform = transform.createConcatenation(Transform.rotate(Math.toDegrees(angle), 0, 0));
