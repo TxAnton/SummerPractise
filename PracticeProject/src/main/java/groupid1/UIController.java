@@ -90,7 +90,23 @@ public class UIController implements Visualisator {
     public void sendPath(LinkedList<TheContentsOfTheCell> path) {
         for (TheContentsOfTheCell cell : path) {
             drawCell((int) cell.getLocation().getX(), (int) cell.getLocation().getY(), CellType.PATH, true);
+
+
+            TheContentsOfTheCell parent = cell.getParent();
+            if (parent != null) {
+
+
+                Point loc = cell.getLocation();
+                Point ploc = parent.getLocation();
+
+                drawArrow((int) ((ploc.getX() + 1) * tile - tile / 2), (int) ((ploc.getY() + 1) * tile - tile / 2), (int) ((loc.getX() + 1) * tile - tile / 2), (int) ((loc.getY() + 1) * tile - tile / 2), Color.RED);
+            }
         }
+
+        for (TheContentsOfTheCell cell : path) {
+        }
+
+
     }
 
     @Override
@@ -133,20 +149,8 @@ public class UIController implements Visualisator {
                     TheContentsOfTheCell parent = cell.getParent();
                     Point loc = cell.getLocation();
                     Point ploc = parent.getLocation();
-/*
-                    double q = 0.05;
-                    var vecPL = loc;vecPL.translate((int)-ploc.getX(),(int)-ploc.getY());
-                    var d = Point.distance(loc.getX(),loc.getY(),ploc.getX(),ploc.getY());
-                    vecPL.x = (int)(vecPL.x / d);
-                    vecPL.y = (int)(vecPL.y / d);
-                    vecPL.x = (int)(vecPL.x * q);
-                    vecPL.y = (int)(vecPL.y * q);
-                    loc.translate((int)vecPL.getX(),(int)vecPL.getY());
-                    ploc.translate((int)-vecPL.getX(),(int)-vecPL.getY());
 
- */
-
-                    drawArrow((int) ((i + 1) * tile - tile / 2), (int) ((j + 1) * tile - tile / 2), (int) ((ploc.getX() + 1) * tile - tile / 2), (int) ((ploc.getY() + 1) * tile - tile / 2), Color.DARKGRAY);
+                    drawArrow((int) ((ploc.getX() + 1) * tile - tile / 2), (int) ((ploc.getY() + 1) * tile - tile / 2), (int) ((i + 1) * tile - tile / 2), (int) ((j + 1) * tile - tile / 2), Color.DARKGRAY);
                 }
 
             }
@@ -224,9 +228,8 @@ public class UIController implements Visualisator {
     }
 
 
-
     @FXML
-    public void OnCanvasClicked(javafx.scene.input.MouseEvent event){
+    public void OnCanvasClicked(javafx.scene.input.MouseEvent event) {
         /*
         System.out.println(""+event.getX()+" "+event.getY());
         System.out.println(Math.min((int)mainCanvas.getWidth()/width,(int)mainCanvas.getHeight()/height));
@@ -235,12 +238,13 @@ public class UIController implements Visualisator {
 */
         //drawCell((int)(event.getX()/tile),(int)(event.getY()/tile), CellType.PATH,true);
 
-        if(isControllerSet())iController.mousePressed((int)(event.getX()/tile),(int)(event.getY()/tile),curType);
+        if (isControllerSet())
+            iController.mousePressed((int) (event.getX() / tile), (int) (event.getY() / tile), curType);
 
     }
 
     @FXML
-    public void OnButtonBlankClicked(){
+    public void OnButtonBlankClicked() {
         curType = CellType.BLANK;
         //iController.mousePressed();
         //if(isControllerSet())iController.setStateOfDelete();
@@ -248,37 +252,37 @@ public class UIController implements Visualisator {
     }
 
     @FXML
-    public void OnButtonWallClicked(){
+    public void OnButtonWallClicked() {
         curType = CellType.WALL;
 //        if(isControllerSet())iController.setStateOfAddingBlock();
 
     }
 
     @FXML
-    public void OnButtonStartClicked(){
+    public void OnButtonStartClicked() {
         curType = CellType.START;
         //if(isControllerSet())iController.setStartState();
 
     }
 
     @FXML
-    public void OnButtonEndClicked(){
+    public void OnButtonEndClicked() {
         curType = CellType.END;
         //if(isControllerSet())iController.setFinishState();
 
     }
 
     @FXML
-    public void OnNextClicked(){
-        if(isControllerSet()){
+    public void OnNextClicked() {
+        if (isControllerSet()) {
             iController.nextStep();
         }
         //System.out.println("OnNextClicked()");
     }
 
     @FXML
-    public void OnPrevClicked(){
-        if(isControllerSet())iController.backStep();
+    public void OnPrevClicked() {
+        if (isControllerSet()) iController.backStep();
 
 
     }
@@ -423,11 +427,11 @@ public class UIController implements Visualisator {
         gc.setTransform(tr);
     }
 
-    private void drawCell(int x, int y, CellType cellType, boolean withStroke){
+    private void drawCell(int x, int y, CellType cellType, boolean withStroke) {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
         gc.setLineWidth(lineWidth);
         gc.setStroke(Color.BLACK);
-        switch (cellType){
+        switch (cellType) {
 
             case BLANK:
                 gc.setFill(Color.DARKBLUE);
@@ -451,8 +455,8 @@ public class UIController implements Visualisator {
                 gc.setFill(Color.YELLOW);
                 break;
         }
-        gc.fillRect(x*tile,y*tile,tile,tile);
-        if(withStroke)gc.strokeRect(x*tile,y*tile,tile,tile);
+        gc.fillRect(x * tile, y * tile, tile, tile);
+        if (withStroke) gc.strokeRect(x * tile, y * tile, tile, tile);
         //drawGrid();
     }
 
@@ -484,7 +488,6 @@ public class UIController implements Visualisator {
         }
     }));
     */
-
 
 
 }
