@@ -17,7 +17,8 @@ public class Model {
     private int cur;//индекс снимка
     private static final int WIDTH = 25;
     private static final int HEIGHT = 20;
-    private int flag;
+    private int flag_start;
+    private int flag_finish;
     private int counter_reset;
 
     public Visualisator getVisualisator() {
@@ -39,7 +40,8 @@ public class Model {
         this.g_grid = new Grid(Model.WIDTH, Model.HEIGHT);
         this.cur = 0;
         this.g_grid_copy = new Grid(Model.WIDTH, Model.HEIGHT);
-        flag=0;
+        flag_start = 0;
+        flag_finish = 0;
         counter_reset = 0;
         //visualisator.sendMemento(new Memento(g_grid));
 
@@ -48,6 +50,8 @@ public class Model {
     public void createGrid(int width, int height){
         this.g_grid = new Grid(width, height);
         this.cur = 0;
+        flag_start = 0;
+        flag_finish = 0;
     }
 
 
@@ -55,15 +59,30 @@ public class Model {
 
         Point location = new Point(x,y);
 
-
-
         if(className.equals("Start")){
-            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
-            this.g_grid.setObject(x,y, start);
+            if(flag_start == 0) {
+                TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
+                this.g_grid.setObject(x, y, start);
+                flag_start = 1;
+            }
+            else if(flag_start == 1){
+                removeStart();
+                TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
+                this.g_grid.setObject(x, y, start);
+            }
         }
         else if(className.equals("Finish")){
-            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
-            this.g_grid.setObject(x,y, finish);
+            if(flag_finish == 0) {
+                TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
+                this.g_grid.setObject(x, y, finish);
+                flag_finish = 1;
+            }
+            else if(flag_finish == 1)
+            {
+                removeFinish();
+                TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
+                this.g_grid.setObject(x, y, finish);
+            }
         }
         else if(className.equals("Block")){
             TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location, null, null);
@@ -89,6 +108,30 @@ public class Model {
         //visualisator.sendPath(this.g_path);
         //this.mem.add(new Memento(this.g_grid));
 
+    }
+
+    public void removeStart(){
+        for(int y = 0; y < g_grid.getHeight(); y++){
+            for(int x = 0; x < g_grid.getWidth(); x++){
+                if(g_grid.getObject(x,y).getType() == 3 ) {
+                    TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(new Point(x,y),null, null);
+                    g_grid.setObject(x,y, empty);
+                }
+
+            }
+        }
+    }
+
+    public void removeFinish(){
+        for(int y = 0; y < g_grid.getHeight(); y++){
+            for(int x = 0; x < g_grid.getWidth(); x++){
+                if(g_grid.getObject(x,y).getType() == 4 ) {
+                    TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(new Point(x,y),null, null);
+                    g_grid.setObject(x,y, empty);
+                }
+
+            }
+        }
     }
 
     public Grid cleanGrid(Grid grid){
@@ -176,11 +219,11 @@ public class Model {
     }
 
     public void Prev(){
-        if (flag ==1){
+        /*if (flag ==1){
             mem.clear();
             g_path.clear();
             //visualisator.sendPath(this.g_path);
-        }
+        }*/
         if((this.cur <= this.mem.size()-1) &&  this.cur > 0){
             --this.cur;
         }
