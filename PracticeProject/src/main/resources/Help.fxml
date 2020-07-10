@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="149.0" prefWidth="479.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal">
+    <children>
+        <Label layoutX="14.0" layoutY="14.0" text="Algo explanation:"/>
+        <TextField editable="false" layoutX="128.0" layoutY="9.0" prefHeight="26.0" prefWidth="346.0"
+                   text="https://en.wikipedia.org/wiki/A*_search_algorithm"/>
+        <Label layoutX="14.0" layoutY="66.0" text="Start cell" textFill="LIME"/>
+        <Label layoutX="14.0" layoutY="82.0" text="Finish cell" textFill="RED"/>
+        <Label layoutX="147.0" layoutY="66.0" text="Wall" textFill="#8a8a8a"/>
+        <Label layoutX="147.0" layoutY="82.0" text="Empty cell" textFill="#0000b2"/>
+        <Label layoutX="301.0" layoutY="66.0" text="Open cell" textFill="AQUA"/>
+        <Label layoutX="301.0" layoutY="82.0" text="Closed cell" textFill="BLUE"/>
+        <Label layoutX="16.0" layoutY="99.0" text="Path cell" textFill="#b2b200"/>
+        <Label layoutX="12.0" layoutY="123.0" text="Step-by-step execution with Nexe step, Prevstep, Play buttons"/>
+    </children>
+</AnchorPane>

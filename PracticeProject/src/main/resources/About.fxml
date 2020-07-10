@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="0.0" prefWidth="378.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal">
+    <children>
+        <TextArea editable="false" prefHeight="160.0" prefWidth="378.0"
+                  text="A* algotithm visualisation&#10;Made in Russia by:&#10;Architecture: Syrtsova Ekaterina&#10;Algorithm: Ishanina Lüdmila&#10;GUI: Larin Anton&#10;&#10;Github repository:&#10;https://github.com/TxAnton/SummerPractise&#10;"/>
+    </children>
+</AnchorPane>

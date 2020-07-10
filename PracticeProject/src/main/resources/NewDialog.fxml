@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" blendMode="DARKEN" prefHeight="255.0" prefWidth="328.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal">
+    <children>
+        <Label layoutX="20.0" layoutY="66.0" text="Width"/>
+        <Label layoutX="187.0" layoutY="66.0" text="Height"/>
+        <RadioButton fx:id="radioBlank" layoutX="20.0" layoutY="128.0" mnemonicParsing="false" selected="true"
+                     text="Blank">
+            <toggleGroup>
+                <ToggleGroup fx:id="MapTypeGroup"/>
+            </toggleGroup>
+        </RadioButton>
+        <RadioButton fx:id="radioFilled" layoutX="20.0" layoutY="146.0" mnemonicParsing="false" text="Filled"
+                     toggleGroup="$MapTypeGroup"/>
+        <RadioButton fx:id="radioRandom" layoutX="20.0" layoutY="164.0" mnemonicParsing="false" text="Random"
+                     toggleGroup="$MapTypeGroup"/>
+        <RadioButton fx:id="radioLabyrinth" layoutX="20.0" layoutY="182.0" mnemonicParsing="false" text="Labyrinth"
+                     toggleGroup="$MapTypeGroup"/>
+        <TextField fx:id="textWidth" layoutX="20.0" layoutY="89.0" prefHeight="26.0" prefWidth="119.0"/>
+        <TextField fx:id="textHeight" layoutX="187.0" layoutY="89.0" prefHeight="26.0" prefWidth="119.0"/>
+        <Button fx:id="buttonOk" layoutX="187.0" layoutY="207.0" mnemonicParsing="false" onAction="#OnOkClicked"
+                prefHeight="26.0" prefWidth="119.0" text="Ok"/>
+    </children>
+</AnchorPane>
