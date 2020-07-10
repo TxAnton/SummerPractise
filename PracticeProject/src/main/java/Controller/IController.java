@@ -23,6 +23,6 @@ public interface IController {
     void backStep();
     void resetAlgorithm();
     void mousePressed(int posX, int posY, UIController.CellType type);
-//    void saveGraph();
-//    void loadGraph();
+    void saveGraph();
+    void loadGraph();
 }

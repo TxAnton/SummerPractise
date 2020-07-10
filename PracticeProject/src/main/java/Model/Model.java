@@ -1,6 +1,9 @@
 package Model;
 
 import java.awt.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import Model.States.Visualisator;
 
@@ -62,6 +65,7 @@ public class Model {
             this.g_grid.setObject(x,y, empty);
         }
 
+
         visualisator.sendMemento(new Memento(g_grid));
 
     }
@@ -117,5 +121,86 @@ public class Model {
         return null;
     }
 
+    public void saveGraph(String fileName){
+        try {
+            FileWriter writer = new FileWriter(fileName, false);
+            writer.write(g_grid.getWidth());
+            writer.append('\n');
+            writer.write(g_grid.getHeight());
+            writer.append('\n');
+            for(int y = 0; y < g_grid.getHeight(); y++) {
+                for (int x = 0; x < g_grid.getWidth(); x++) {
+                    switch (g_grid.getObject(x,y).getType()) {
+                        case 1:
+                            writer.append(' ');
+                        case 2:
+                            writer.append('#');
+                        case 3:
+                            writer.append('s');
+                        case 4:
+                            writer.append('f');
+                        case 5:
+                            writer.append('+');
+                        case 6:
+                            writer.append('-');
+                        case 7:
+                            writer.append('x');
+                    }
+                }
+                writer.append('\n');
+            }
+            //writer.flush();
+            writer.close();
+        } catch (IOException e){
+
+        }
+
+    }
+
+    public void loadGraph(String fileName){
+        try {
+            FileReader reader = new FileReader(fileName);
+            int c;
+            int width = (char)reader.read();
+            c = (char)reader.read();
+            int height = (char)reader.read();
+            c = (char)reader.read();
+            createGrid(width,height);
+            for(int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    Point location = new Point(x,y);
+                    c = (char)reader.read();
+                    switch (c) {
+                        case ' ':
+                            TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(location, null, null);
+                            g_grid.setObject(x,y,empty);
+                        case '#':
+                            TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location, null, null);
+                            g_grid.setObject(x,y,block);
+                        case 's':
+                            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
+                            g_grid.setObject(x,y,start);
+                        case 'f':
+                            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
+                            g_grid.setObject(x,y,finish);
+                        case '+':
+                            TheContentsOfTheCell open = new TheContentsOfTheCell.Open(location, null, null);
+                            g_grid.setObject(x,y,open);
+                        case '-':
+                            TheContentsOfTheCell close = new TheContentsOfTheCell.Close(location, null, null);
+                            g_grid.setObject(x,y,close);
+                        case 'x':
+                            TheContentsOfTheCell path = new TheContentsOfTheCell.Path(location, null, null);
+                            g_grid.setObject(x,y,path);
+                    }
+                }
+                c = (char)reader.read();
+            }
+            reader.close();
+            visualisator.sendMemento(new Memento(g_grid));
+        } catch (IOException e){
+
+        }
+    }
 
 }

@@ -1,5 +1,4 @@
 package Controller;
-
 import Model.Model;
 import Model.States.*;
 import groupid1.UIController;
@@ -73,5 +72,35 @@ public class Controller implements IController{
             }
             currentState.mousePressed(posX,posY);
         }
+    }
+
+    @Override
+    public void saveGraph() {
+        model.saveGraph("save.txt");
+        /*
+        File file = view.showFileChooserDialog("Сохранить граф");
+        if (file != null) {
+            try {
+                model.saveGraph(file.getAbsoluteFile().toString());
+            } catch (IOException e) {
+                //view.showErrorDialog("Ошибка", "Не удалось сохраненить граф. Попробуйте еще раз!");
+            }
+        }
+        */
+    }
+
+    @Override
+    public void loadGraph() {
+        model.loadGraph("save.txt");
+        /*
+        File file = view.showFileChooserDialog("Загрузить граф");
+        if (file != null) {
+            try {
+                model.loadGraph(file.getAbsoluteFile().toString());
+            } catch (Exception e) {
+                //view.showErrorDialog("Ошибка", "Не удалось загрузить граф. Попробуйте еще раз!");
+            }
+        }
+        */
     }
 }
