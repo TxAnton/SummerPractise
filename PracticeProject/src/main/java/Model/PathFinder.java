@@ -42,10 +42,18 @@ public class PathFinder {
             //иначе
             temp = this.lookingForBestTop();//текущая вершина = лучшей из доступный
             /////////////////////
-            TheContentsOfTheCell close = new TheContentsOfTheCell.Close(temp.getLocation(), temp.getParent(), null);
-            this.g_closedList.addLast(temp);//добавляем её в закрытый список
-            grid.setObject(temp.getLocation().x,temp.getLocation().y,close);
-            history.add(new Memento(grid));
+            if(!temp.getLocation().equals(start)) {
+                TheContentsOfTheCell close = new TheContentsOfTheCell.Close(temp.getLocation(), temp.getParent(), null);
+                this.g_closedList.addLast(temp);//добавляем её в закрытый список
+                grid.setObject(temp.getLocation().x, temp.getLocation().y, close);
+                grid.setObject(start.x, start.y, startTop);
+                grid.setObject(finish.x, finish.y, finishTop);
+                history.add(new Memento(grid));
+            }
+            else if (temp.getLocation().equals(start)) {
+                history.add(new Memento(grid));
+                //grid.setObject(start.x, start.y, startTop);
+            }
             /////////////////////
             this.addNeighbor(temp, startTop, finishTop, grid);
             //вызываем метод добавляения соседней вершины
@@ -73,29 +81,36 @@ public class PathFinder {
             for(int newX = x - 1; newX < x + 2; newX++){
                 try{
                     if(newY == y && newX == x){
+                        /*if(parent.getLocation().equals(start)){
+
+                        }*/
                         //пропускаем самого себя
                     }
                     else if(!grid.getObject(newX, newY).isObstacle()){//если в ячейке нет БЛОКА
                         TheContentsOfTheCell top = new TheContentsOfTheCell.Open(new Point(newX, newY),parent, finish);//создаем новую вершину,
                         //top.set(parent, finish);
                         // которую мы рассматриваем
-                        int index = this.openListIndexOf(top);//получаем её индекс в открытом списке
-                        if(this.closedListContains(top)){
-                            //если она в закрытом списке, то пропускаем
-                        }
-                        else if(index != -1){//если она есть в открытом списке, то
-                            TheContentsOfTheCell old = (TheContentsOfTheCell) this.g_openList.get(index);//создаем вершину, точнее достаем её из открытого списка
-                            //если предыдущий родитель находится дальше от старта, чем новый, то...
-                            if(old.getParent().getCostFromStart() > top.getParent().getCostFromStart()){
-                                //old.setType()
-                                this.g_openList.set(index, top);//меняем старое значение на новое
+
+                            int index = this.openListIndexOf(top);//получаем её индекс в открытом списке
+                            if (this.closedListContains(top) ) {
+                                //если она в закрытом списке, то пропускаем
+                            } else if (index != -1) {//если она есть в открытом списке, то
+                                TheContentsOfTheCell old = (TheContentsOfTheCell) this.g_openList.get(index);//создаем вершину, точнее достаем её из открытого списка
+                                //если предыдущий родитель находится дальше от старта, чем новый, то...
+                                if (old.getParent().getCostFromStart() > top.getParent().getCostFromStart()) {
+                                    //old.setType()
+                                    this.g_openList.set(index, top);//меняем старое значение на новое
+                                }
                             }
-                        }
-                        else{
-                            TheContentsOfTheCell open = new TheContentsOfTheCell.Open(top.getLocation(),parent, finish);
-                            grid.setObject(top.getLocation().x,top.getLocation().y,open);
-                            this.g_openList.add(top);//если вершины не было, то добавляем в откр список её
-                        }
+                            else {
+
+                                    TheContentsOfTheCell open = new TheContentsOfTheCell.Open(top.getLocation(), parent, finish);
+                                    grid.setObject(top.getLocation().x, top.getLocation().y, open);
+                                    this.g_openList.add(top);//если вершины не было, то добавляем в откр список её
+
+
+                            }
+
                     }
                 }
                 catch(ArrayIndexOutOfBoundsException ae){//учитываем ошибку:
