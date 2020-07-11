@@ -15,7 +15,7 @@ package Model;
 * 4 - finish
 * 5 - open
 * 6 - close
-* ????????7 - path
+* 7 - path
 * */
 
 import java.awt.*;

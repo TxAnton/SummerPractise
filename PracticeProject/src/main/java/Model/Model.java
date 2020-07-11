@@ -115,18 +115,22 @@ public class Model {
 
     public boolean checkingTheStartAndFinish(){
 
+        int f1 = 0;
+        int f2 = 0;
+
         for(int y = 0; y < g_grid.getHeight(); y++){
             for(int x = 0; x < g_grid.getWidth(); x++){
                 if(g_grid.getObject(x,y).getType() == 3 ) {
-                    prohibition_flag = 1;
+                    f1 = 1;
                 }
                 if(g_grid.getObject(x,y).getType() == 4){
-                    prohibition_flag = 2;
+                    f2 = 1;
                 }
 
             }
         }
-        if(prohibition_flag == 2){
+        if(f1 == 1 & f2 == 1){
+            prohibition_flag = 2;
             return true;
         }
         else

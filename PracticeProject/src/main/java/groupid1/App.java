@@ -22,7 +22,7 @@ public class App extends Application {
     private static UIController uiController;
     private static Model model;
     private static Controller controller;
-
+    private static Stage _stage;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -65,7 +65,15 @@ public class App extends Application {
         image = new Image(iconStream);
         stage.getIcons().add(image);
 
-        stage.show();
+
+        DialogController dialogController = new DialogController(this);
+        _stage = stage;
+        //stage.show();
+    }
+
+    public void newField(int width, int height, UIController.FieldType fieldType) {
+        _stage.show();
+        uiController.newField(width, height, fieldType);
     }
 
     public static void main(String[] args) {
