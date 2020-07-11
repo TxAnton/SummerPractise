@@ -15,8 +15,10 @@ public class Model {
     private int cur;//индекс снимка
     private static final int WIDTH = 25;
     private static final int HEIGHT = 20;
-    private int flag;
+    private int flag_start;
+    private int flag_finish;
     private int counter_reset;
+    private int prohibition_flag;
 
     public Visualisator getVisualisator() {
         return visualisator;
@@ -37,15 +39,19 @@ public class Model {
         this.g_grid = new Grid(Model.WIDTH, Model.HEIGHT);
         this.cur = 0;
         this.g_grid_copy = new Grid(Model.WIDTH, Model.HEIGHT);
-        flag=0;
+        flag_start = 0;
+        flag_finish = 0;
         counter_reset = 0;
-        //visualisator.sendMemento(new Memento(g_grid));
+        prohibition_flag = 0;
 
     }
 
     public void createGrid(int width, int height){
         this.g_grid = new Grid(width, height);
         this.cur = 0;
+        flag_start = 0;
+        flag_finish = 0;
+        prohibition_flag = 0;
     }
 
 
@@ -53,15 +59,30 @@ public class Model {
 
         Point location = new Point(x,y);
 
-
-
         if(className.equals("Start")){
-            TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
-            this.g_grid.setObject(x,y, start);
+            if(flag_start == 0) {
+                TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
+                this.g_grid.setObject(x, y, start);
+                flag_start = 1;
+            }
+            else if(flag_start == 1){
+                removeStart();
+                TheContentsOfTheCell start = new TheContentsOfTheCell.Start(location, null, null);
+                this.g_grid.setObject(x, y, start);
+            }
         }
         else if(className.equals("Finish")){
-            TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
-            this.g_grid.setObject(x,y, finish);
+            if(flag_finish == 0) {
+                TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
+                this.g_grid.setObject(x, y, finish);
+                flag_finish = 1;
+            }
+            else if(flag_finish == 1)
+            {
+                removeFinish();
+                TheContentsOfTheCell finish = new TheContentsOfTheCell.Finish(location, null, null);
+                this.g_grid.setObject(x, y, finish);
+            }
         }
         else if(className.equals("Block")){
             TheContentsOfTheCell block = new TheContentsOfTheCell.Block(location, null, null);
@@ -81,12 +102,59 @@ public class Model {
 
     public void Execute() throws ClassNotFoundException {
 
-        this.g_finder = new PathFinder();//вызвали конструктор
-        this.g_path = this.g_finder.findPath(this.g_grid);//вызвали метод и нашли путь
-        this.mem = this.g_finder.getHistory();//получаем mementos
-        //visualisator.sendPath(this.g_path);
-        //this.mem.add(new Memento(this.g_grid));
+        if(checkingTheStartAndFinish()) {
+            this.g_finder = new PathFinder();//вызвали конструктор
+            this.g_path = this.g_finder.findPath(this.g_grid);//вызвали метод и нашли путь
+            this.mem = this.g_finder.getHistory();//получаем mementos
+            //visualisator.sendPath(this.g_path);
+            //this.mem.add(new Memento(this.g_grid));
+        }
 
+
+    }
+
+    public boolean checkingTheStartAndFinish(){
+
+        for(int y = 0; y < g_grid.getHeight(); y++){
+            for(int x = 0; x < g_grid.getWidth(); x++){
+                if(g_grid.getObject(x,y).getType() == 3 ) {
+                    prohibition_flag = 1;
+                }
+                if(g_grid.getObject(x,y).getType() == 4){
+                    prohibition_flag = 2;
+                }
+
+            }
+        }
+        if(prohibition_flag == 2){
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void removeStart(){
+        for(int y = 0; y < g_grid.getHeight(); y++){
+            for(int x = 0; x < g_grid.getWidth(); x++){
+                if(g_grid.getObject(x,y).getType() == 3 ) {
+                    TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(new Point(x,y),null, null);
+                    g_grid.setObject(x,y, empty);
+                }
+
+            }
+        }
+    }
+
+    public void removeFinish(){
+        for(int y = 0; y < g_grid.getHeight(); y++){
+            for(int x = 0; x < g_grid.getWidth(); x++){
+                if(g_grid.getObject(x,y).getType() == 4 ) {
+                    TheContentsOfTheCell empty = new TheContentsOfTheCell.Empty(new Point(x,y),null, null);
+                    g_grid.setObject(x,y, empty);
+                }
+
+            }
+        }
     }
 
     public Grid cleanGrid(Grid grid){
@@ -111,80 +179,57 @@ public class Model {
 
     public void Reset(){
 
-        cur = 0;
-        this.g_grid = cleanGrid(this.g_grid);
-        /*try {
-            Point start = new Point(g_grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName()));
-            Point finish = new Point(g_grid.getObjectPoint(TheContentsOfTheCell.Finish.class.getName()));
-            TheContentsOfTheCell finishTop = new TheContentsOfTheCell.Finish(finish, null, null);
-            TheContentsOfTheCell startTop = new TheContentsOfTheCell.Start(start, null, null);
-            g_grid_copy.setObject(start.x,start.y,startTop);
-            g_grid_copy.setObject(finish.x,finish.y,finishTop);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
+        if(prohibition_flag == 2) {
 
+            cur = 0;
+            this.g_grid = cleanGrid(this.g_grid);
 
+            visualisator.sendMemento(mem.get(0));
 
-        //this.flag = 1;//???????????????
-        visualisator.sendMemento(mem.get(0));
-
-        //++counter_reset;
-        this.mem.clear();
-        g_path.clear();
-        visualisator.sendPath(g_path);
-
-        /*try {
-            Execute();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }*/
-
+            this.mem.clear();
+            if(g_path!=null) {
+                g_path.clear();
+                visualisator.sendPath(g_path);
+            }
+        }
 
         //потом: возвращает поле изначальное Антону
     }
 
     public void Next() {
 
-        /*if (this.flag ==1){
-            //System.out.println("Я ЗДЕЕЕЕЕЕЕЕСЬ");
-            mem.clear();
-            this.g_path.clear();
-            //visualisator.sendPath(g_path);
-        }*/
+        if(prohibition_flag == 2) {
 
+            if (this.cur < this.mem.size() - 1) {
+                this.cur++;
+            }
+            if ((this.cur == this.mem.size() - 1) & this.cur != 0) {
 
-            //System.out.println("И ЗачеМ Я ЗДЕСЬ??");
-        if (this.cur < this.mem.size() - 1) {
-            this.cur++;
-        }
-        if ((this.cur == this.mem.size() - 1) & this.cur != 0) {
+                if(g_path != null)
+                    visualisator.sendPath(this.g_path);
 
-            visualisator.sendPath(this.g_path);
-
-        } else if (this.cur < this.mem.size() - 1) {
-            visualisator.sendMemento(mem.get(this.cur));
+            } else if (this.cur < this.mem.size() - 1) {
+                visualisator.sendMemento(mem.get(this.cur));
+            }
         }
 
 
-        //return this.mem.get(this.cur);
 
     }
 
     public void Prev(){
-        if (flag ==1){
-            mem.clear();
-            g_path.clear();
-            //visualisator.sendPath(this.g_path);
+
+        if(prohibition_flag == 2) {
+
+            if ((this.cur <= this.mem.size() - 1) && this.cur > 0) {
+                --this.cur;
+            }
+            if ((this.cur <= this.mem.size() - 1) && this.cur >= 0) {
+                visualisator.sendMemento(mem.get(this.cur));
+
+            }
         }
-        if((this.cur <= this.mem.size()-1) &&  this.cur > 0){
-            --this.cur;
-        }
-        if((this.cur <= this.mem.size()-1) && this.cur >= 0) {
-            visualisator.sendMemento(mem.get(this.cur));
-            //return this.mem.get(this.cur);
-        }
-        //return null;
+
     }
 
     public void saveGrid(String fileName){

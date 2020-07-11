@@ -81,9 +81,6 @@ public class PathFinder {
             for(int newX = x - 1; newX < x + 2; newX++){
                 try{
                     if(newY == y && newX == x){
-                        /*if(parent.getLocation().equals(start)){
-
-                        }*/
                         //пропускаем самого себя
                     }
                     else if(!grid.getObject(newX, newY).isObstacle()){//если в ячейке нет БЛОКА
