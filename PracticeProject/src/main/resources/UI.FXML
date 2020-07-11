@@ -12,7 +12,6 @@
                    <items>
                        <MenuItem fx:id="menuOpen" mnemonicParsing="false" onAction="#OnOpenClicked" text="Open"/>
                        <MenuItem fx:id="menuSave" mnemonicParsing="false" onAction="#OnSaveClicked" text="Save"/>
-                       <MenuItem fx:id="menuNew" mnemonicParsing="false" onAction="#OnNewClicked" text="New"/>
                        <MenuItem fx:id="menuReset" mnemonicParsing="false" text="Reset"/>
                    </items>
                </Menu>
