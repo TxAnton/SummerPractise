@@ -118,10 +118,10 @@ public class Model {
         for(int y = 0; y < g_grid.getHeight(); y++){
             for(int x = 0; x < g_grid.getWidth(); x++){
                 if(g_grid.getObject(x,y).getType() == 3 ) {
-                    prohibition_flag = 1;
+                    prohibition_flag++;
                 }
                 if(g_grid.getObject(x,y).getType() == 4){
-                    prohibition_flag = 2;
+                    prohibition_flag++;
                 }
 
             }

@@ -37,7 +37,7 @@ public class PathFinder {
         this.g_openList.add(temp);//добавляем в список откр вершин начальную вершину
         while(!this.g_openList.isEmpty()){//пока список откр вершин не пуст...
             if(temp.getLocation().equals(finish)){//если расположение текущей точки = finish
-                return this.constructPath(temp, grid);//то строим путь!!!
+                return this.constructPath(temp);//то строим путь!!!
             }
             //иначе
             temp = this.lookingForBestTop();//текущая вершина = лучшей из доступный
@@ -113,7 +113,7 @@ public class PathFinder {
                 catch(ArrayIndexOutOfBoundsException ae){//учитываем ошибку:
                     //когда мы пытаемся обратиться к элементу массива
                     //по отрицательному или превышающему размер массива индексу
-                    //System.err.println(ae);
+
                 }
             }
         }
@@ -148,7 +148,6 @@ public class PathFinder {
         for(int index = 1; index < this.g_openList.size(); index++){//проходимся по вершинам из открытого списка
             TheContentsOfTheCell top = (TheContentsOfTheCell) this.g_openList.get(index);
             if(top.getTotalCost() < cost){//если оценка из вершины меньше чем была, то
-
                 cost = top.getTotalCost();//изменяем оценку на наименьшую(она же наилучшая)
                 lowestCostIndex = index;//меняем индекс
             }
@@ -159,7 +158,7 @@ public class PathFinder {
         return top;
     }
 
-    private LinkedList constructPath(TheContentsOfTheCell finish, Grid grid){//метод построения пути!
+    private LinkedList constructPath(TheContentsOfTheCell finish){//метод построения пути!
         LinkedList path = new LinkedList();//создаем новый список
         while(finish != null){
             //TheContentsOfTheCell pa = new TheContentsOfTheCell.Path(finish.getLocation(),finish.getParent(),finish);
