@@ -29,19 +29,10 @@ public class AddingState implements State{
     public void resetAlgorithm(){}
 
     @Override
-    public void saveGrid(){
-        model.saveGraph("save.txt");
-    }
+    public void saveGrid(){ model.saveGrid("save.txt"); }
 
     @Override
-    public void loadGrid(){
-        model.loadGraph("save.txt");
-    }
-
-    @Override
-    public String getStatus(){
-        return ("Кликните на рабочую область, чтобы установить клетку " + type);
-    }
+    public void loadGrid() { model.saveGrid("save.txt"); }
 
     @Override
     public void mousePressed(int posX, int posY) {

@@ -2,6 +2,7 @@ package Controller;
 import Model.Model;
 import Model.States.*;
 import groupid1.UIController;
+import java.io.File;
 
 public class Controller implements IController{
     private final Model model;
@@ -30,15 +31,12 @@ public class Controller implements IController{
         }
         isAlgorithmStart = true;
         currentState.nextStep();
-        //view.setLabelHelp(currentState.getStatus());
     }
 
     @Override
     public void backStep() {
         if (isAlgorithmStart)
             currentState.backStep();
-
-        //view.setLabelHelp(currentState.getStatus());
     }
 
     @Override
@@ -47,7 +45,6 @@ public class Controller implements IController{
             isAlgorithmStart = false;
             currentState.resetAlgorithm();
         }
-        //view.setLabelHelp(currentState.getStatus());
     }
 
     @Override
@@ -73,25 +70,20 @@ public class Controller implements IController{
 
     @Override
     public void saveGrid() {
-        currentState.saveGrid();
-        /*
-        File file = view.showFileChooserDialog("Сохранить граф");
-        if (file != null) {
-            try {
-                model.saveGraph(file.getAbsoluteFile().toString());
-            } catch (IOException e) {
-                //view.showErrorDialog("Ошибка", "Не удалось сохраненить граф. Попробуйте еще раз!");
-            }
-        }
-        */
+        if (isAlgorithmStart)
+            currentState.saveGrid();
     }
 
     @Override
-    public void loadGrid() {
-        currentState = new AlgorithmState(model,view);
-        currentState.loadGrid();
-        //currentState.startAlgorithm();
-        isAlgorithmStart = true;
-
+    public void loadGrid(){
+        File f = new File("save.txt");
+        if (f.canRead() && f.length()!=0) {
+            currentState = new AlgorithmState(model,view);
+            currentState.loadGrid();
+            isAlgorithmStart = true;
+        }
+        //currentState = new AlgorithmState(model,view);
+        //currentState.loadGrid();
+        //isAlgorithmStart = true;
     }
 }

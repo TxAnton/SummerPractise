@@ -1,15 +1,16 @@
 package Model.States;
 
+import java.io.FileNotFoundException;
+
 /**
  * Интерфейс состояний
  *  void Init(int width, int height)
  *  void nextStep() - следующий шаг алгоритма
  *  void backStep() - предыдущий шаг алгоритма
  *  void startAlgorithm()
- *  void showAlgorithm()
  *  void resetAlgorithm()
- *  String getStatus() - Возвращает текущие состояние данного стейта
- *  void close() - устанавливает исходное состояние
+ *  void loadGrid();
+ *  void saveGrid();
  *  void mousePressed(int posX, int posY) - реакция на нажатие кнопки мыши
  */
 
@@ -19,8 +20,7 @@ public interface State {
     void backStep();
     void startAlgorithm();
     void resetAlgorithm();
-    String getStatus();
     void loadGrid();
-    void saveGrid();
+    void saveGrid() ;
     void mousePressed(int posX, int posY);
 }

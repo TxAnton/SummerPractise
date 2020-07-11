@@ -1,7 +1,6 @@
 package Model.States;
 
 import Model.*;
-import java.util.LinkedList;
 
 public class AlgorithmState implements State{
     private final Model model;
@@ -43,17 +42,12 @@ public class AlgorithmState implements State{
 
     @Override
     public void saveGrid(){
-        model.saveGraph("save.txt");
+        model.saveGrid("save.txt");
     }
 
     @Override
-    public void loadGrid(){
-        model.loadGraph("save.txt");
-    }
-
-    @Override
-    public String getStatus(){
-        return "Выполнение алгоритма поиска пути.";
+    public void loadGrid() {
+        model.loadGrid("save.txt");
     }
 
     @Override

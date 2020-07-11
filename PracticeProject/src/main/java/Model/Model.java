@@ -1,9 +1,7 @@
 package Model;
 
 import java.awt.*;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedList;
 import Model.States.Visualisator;
 
@@ -189,7 +187,7 @@ public class Model {
         //return null;
     }
 
-    public void saveGraph(String fileName){
+    public void saveGrid(String fileName){
         try {
             FileWriter writer = new FileWriter(fileName, false);
             writer.write(mem.get(cur).getGrid().getWidth());
@@ -233,14 +231,14 @@ public class Model {
         }
     }
 
-    public void loadGraph(String fileName){
-        if (this.cur != 0) {
-            this.g_grid = cleanGrid(g_grid);
-            this.mem.clear();
-            this.g_path.clear();
-            this.cur = 0;
-        }
+    public void loadGrid(String fileName) {
         try {
+            if (this.cur != 0) {
+                this.g_grid = cleanGrid(g_grid);
+                this.mem.clear();
+                this.g_path.clear();
+                this.cur = 0;
+            }
             FileReader reader = new FileReader(fileName);
             char c;
             int width = reader.read();
@@ -297,9 +295,8 @@ public class Model {
                 this.cur = current;
                 visualisator.sendMemento(mem.get(cur));
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
-
 }
