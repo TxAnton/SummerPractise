@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class DialogController {
-    public UIController uiController;
+    public App uiController;
     @FXML
     public TextField textWidth;
     @FXML
@@ -31,7 +31,7 @@ public class DialogController {
     @FXML
     public Button buttonOk;
 
-    public DialogController(UIController uiController1) {
+    public DialogController(App uiController1) {
         uiController = uiController1;
         Parent root;
         URL xmlUrl;

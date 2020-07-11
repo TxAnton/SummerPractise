@@ -170,6 +170,9 @@ public class UIController implements Visualisator {
         if (isControllerSet()) {
             iController.setGrid(width, height);
         }
+
+        OnNewClicked();
+
     }
 
 
@@ -232,7 +235,7 @@ public class UIController implements Visualisator {
 
     @FXML
     public void OnNewClicked() {
-        dialogController = new DialogController(this);
+        //dialogController = new DialogController(this);
     }
 
     @FXML
