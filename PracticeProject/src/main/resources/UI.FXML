@@ -16,11 +16,6 @@
                        <MenuItem fx:id="menuReset" mnemonicParsing="false" text="Reset"/>
                    </items>
                </Menu>
-               <Menu mnemonicParsing="false" text="Edit">
-                   <items>
-                       <MenuItem mnemonicParsing="false" text="Delete"/>
-                   </items>
-               </Menu>
                <Menu mnemonicParsing="false" text="Info">
                    <items>
                        <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#OnAboutClicked" text="About"/>

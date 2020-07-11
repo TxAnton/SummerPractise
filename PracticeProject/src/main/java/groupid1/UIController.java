@@ -34,8 +34,7 @@ import java.util.LinkedList;
 
 public class UIController implements Visualisator {
 
-    public
-    int width;
+    //--------GUI elements
     @FXML
     public javafx.scene.control.MenuItem menuOpen;
     @FXML
@@ -70,7 +69,8 @@ public class UIController implements Visualisator {
     public Button buttonEnd;
     @FXML
     public Button buttonReset;
-
+    //--------Package-private fields
+    int width;
     int height;
     double lineWidth;
     double tile;
@@ -78,7 +78,7 @@ public class UIController implements Visualisator {
     Point releasePoint;
     CellType curType;
     IController iController;
-    //--------Interface implementation
+
     DialogController dialogController;
     Timeline playTimer;
 
@@ -86,31 +86,21 @@ public class UIController implements Visualisator {
         width = 10;
         height = 10;
         tile = 0;
-
-        //drawGrid();
     }
 
+    //--------Interface implementation
     @Override
     public void sendPath(LinkedList<TheContentsOfTheCell> path) {
         for (TheContentsOfTheCell cell : path) {
             drawCell((int) cell.getLocation().getX(), (int) cell.getLocation().getY(), CellType.PATH);
 
-
             TheContentsOfTheCell parent = cell.getParent();
             if (parent != null) {
-
-
                 Point loc = cell.getLocation();
                 Point ploc = parent.getLocation();
-
                 drawArrow((int) ((ploc.getX() + 1) * tile - tile / 2), (int) ((ploc.getY() + 1) * tile - tile / 2), (int) ((loc.getX() + 1) * tile - tile / 2), (int) ((loc.getY() + 1) * tile - tile / 2), Color.RED);
             }
         }
-
-        for (TheContentsOfTheCell cell : path) {
-        }
-
-
     }
 
     @Override
@@ -122,7 +112,6 @@ public class UIController implements Visualisator {
             for (int j = 0; j < height; j++) {
                 TheContentsOfTheCell cell = memento.getObject(i, j);
                 if (cell.isObstacle()) {
-                    //drawCell((int)cell.getLocation().getX(),(int)cell.getLocation().getY(), CellType.WALL,true);
                     drawCell((int) i, (int) j, CellType.WALL);
                 } else if (cell.getType() == 6) {
                     drawCell((int) i, (int) j, CellType.CLOSE);
@@ -132,16 +121,9 @@ public class UIController implements Visualisator {
                     drawCell((int) i, (int) j, CellType.END);
                 } else if (cell.getType() == 5) {
                     drawCell((int) i, (int) j, CellType.OPEN);
-                }
-
-                /*else if(cell.getType() == 7){
-                    drawCell((int)i,(int)j, CellType.PATH,true);
-                }*/
-
-                else if (true) {
+                } else {
                     drawCell((int) i, (int) j, CellType.BLANK);
                 }
-
             }
         }
 
@@ -149,43 +131,17 @@ public class UIController implements Visualisator {
             for (int j = 0; j < height; j++) {
                 TheContentsOfTheCell cell = memento.getObject(i, j);
                 if (cell.getParent() != null) {
-
                     TheContentsOfTheCell parent = cell.getParent();
                     Point loc = cell.getLocation();
                     Point ploc = parent.getLocation();
 
                     drawArrow((int) ((ploc.getX() + 1) * tile - tile / 2), (int) ((ploc.getY() + 1) * tile - tile / 2), (int) ((i + 1) * tile - tile / 2), (int) ((j + 1) * tile - tile / 2), Color.DARKGRAY);
                 }
-
             }
         }
-
-
-
-
-
-
-
-        /*try {
-            Point st = grid.getObjectPoint(TheContentsOfTheCell.Start.class.getName());
-            drawCell((int)st.getX(),(int)st.getY(), CellType.START,true);
-
-            st = grid.getObjectPoint(TheContentsOfTheCell.Finish.class.getName());
-            drawCell((int)st.getX(),(int)st.getY(), CellType.END,true);
-
-            st = grid.getObjectPoint(TheContentsOfTheCell.Close.class.getName());
-            drawCell((int)st.getX(),(int)st.getY(), CellType.CLOSE,true);
-
-            st = grid.getObjectPoint(TheContentsOfTheCell.Empty.Close.class.getName());
-            drawCell((int)st.getX(),(int)st.getY(), CellType.OPEN,true);
-
-        }catch (Exception e){
-            System.err.println(e);
-            System.err.println(e.getMessage());
-
-        }*/
     }
 
+//--------Package-used methods
 
     public IController getiController() {
         return iController;
@@ -214,16 +170,16 @@ public class UIController implements Visualisator {
         if (isControllerSet()) {
             iController.setGrid(width, height);
         }
-
-        //drawArrow(5, 5, 50, 50, Color.BLUE);
-
-
     }
 
 
+    //--------Event handlers
     @FXML
     public void OnResetClicked() {
-        if (isControllerSet()) iController.resetAlgorithm();
+        if (isControllerSet()) {
+            clearField();
+            iController.resetAlgorithm();
+        }
     }
 
     @FXML
@@ -231,49 +187,30 @@ public class UIController implements Visualisator {
         if (isControllerSet()) iController.loadGrid();
     }
 
-
     @FXML
     public void OnCanvasClicked(javafx.scene.input.MouseEvent event) {
-        /*
-        System.out.println(""+event.getX()+" "+event.getY());
-        System.out.println(Math.min((int)mainCanvas.getWidth()/width,(int)mainCanvas.getHeight()/height));
-
-        GraphicsContext gc  =mainCanvas.getGraphicsContext2D();
-*/
-        //drawCell((int)(event.getX()/tile),(int)(event.getY()/tile), CellType.PATH,true);
-
         if (isControllerSet())
             iController.mousePressed((int) (event.getX() / tile), (int) (event.getY() / tile), curType);
-
     }
 
     @FXML
     public void OnButtonBlankClicked() {
         curType = CellType.BLANK;
-        //iController.mousePressed();
-        //if(isControllerSet())iController.setStateOfDelete();
-
     }
 
     @FXML
     public void OnButtonWallClicked() {
         curType = CellType.WALL;
-//        if(isControllerSet())iController.setStateOfAddingBlock();
-
     }
 
     @FXML
     public void OnButtonStartClicked() {
         curType = CellType.START;
-        //if(isControllerSet())iController.setStartState();
-
     }
 
     @FXML
     public void OnButtonEndClicked() {
         curType = CellType.END;
-        //if(isControllerSet())iController.setFinishState();
-
     }
 
     @FXML
@@ -281,14 +218,11 @@ public class UIController implements Visualisator {
         if (isControllerSet()) {
             iController.nextStep();
         }
-        //System.out.println("OnNextClicked()");
     }
 
     @FXML
     public void OnPrevClicked() {
         if (isControllerSet()) iController.backStep();
-
-
     }
 
     @FXML
@@ -303,8 +237,6 @@ public class UIController implements Visualisator {
 
     @FXML
     public void OnPlayClicked() {
-
-
         if (buttonPlay.isSelected()) {
             try {
                 playTimer.stop();
@@ -328,8 +260,6 @@ public class UIController implements Visualisator {
             } catch (Exception e) {
             }
         }
-
-
     }
 
     @FXML
@@ -458,7 +388,7 @@ public class UIController implements Visualisator {
 
     }
 
-    void drawArrow(int x1, int y1, int x2, int y2, Color color) {
+    private void drawArrow(int x1, int y1, int x2, int y2, Color color) {
 
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
         var tr = gc.getTransform();
@@ -485,7 +415,6 @@ public class UIController implements Visualisator {
         gc.setLineWidth(lineWidth);
         gc.setStroke(Color.BLACK);
         switch (cellType) {
-
             case BLANK:
                 gc.setFill(Color.DARKBLUE);
                 break;
@@ -509,8 +438,7 @@ public class UIController implements Visualisator {
                 break;
         }
         gc.fillRect(x * tile, y * tile, tile, tile);
-        if (true) gc.strokeRect(x * tile, y * tile, tile, tile);
-        //drawGrid();
+        gc.strokeRect(x * tile, y * tile, tile, tile);
     }
 
     public enum CellType {
@@ -529,18 +457,4 @@ public class UIController implements Visualisator {
         RANDOM,
         LABYRINTH
     }
-
-
-
-    /*
-    Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<ActionEvent>() {
-
-        @Override
-        public void handle(ActionEvent event) {
-            System.out.println("this is called every 5 seconds on UI thread");
-        }
-    }));
-    */
-
-
 }

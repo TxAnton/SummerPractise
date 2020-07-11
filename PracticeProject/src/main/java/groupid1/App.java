@@ -1,18 +1,17 @@
 package groupid1;
 
 import Controller.Controller;
+import Model.Model;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
-import javafx.scene.*;
-import javafx.fxml.*;
-
+import java.io.InputStream;
 import java.net.URL;
-
-import Model.*;
 
 
 /**
@@ -39,40 +38,34 @@ public class App extends Application {
         System.out.println(xmlUrl);
         loader.setLocation(xmlUrl);
         loader.setController(uiController);
-        //try {
-            root = loader.load();
-            stage.setScene(new Scene(root));
-        //}catch (IOException e){System.err.println(e.toString()+"FOOO");};
-
-
+        root = loader.load();
+        stage.setScene(new Scene(root));
 
         model = new Model();
         controller = new Controller(model,uiController);
         uiController.setiController(controller);
         uiController.init();
         model.setVisualisator(uiController);
+        stage.setResizable(false);
+        stage.setTitle("A* visualisation");
+
+        InputStream iconStream;
+        Image image;
+
+        iconStream = getClass().getResourceAsStream("/Astern512.png");
+        image = new Image(iconStream);
+        stage.getIcons().add(image);
+        iconStream = getClass().getResourceAsStream("/Astern256.png");
+        image = new Image(iconStream);
+        stage.getIcons().add(image);
+        iconStream = getClass().getResourceAsStream("/Astern128.png");
+        image = new Image(iconStream);
+        stage.getIcons().add(image);
+        iconStream = getClass().getResourceAsStream("/Astern64.png");
+        image = new Image(iconStream);
+        stage.getIcons().add(image);
+
         stage.show();
-
-/*
-        var javaVersion = SystemInfo.javaVersion();
-        var javafxVersion = SystemInfo.javafxVersion();
-
-        var label = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-
-        Text text= new Text("Foo");
-
-        ObservableList<Text> os= FXCollections.observableArrayList(text);;
-        ChoiceBox<Text> cb = new ChoiceBox<Text>();
-        cb.setItems(os);
-
-
-        var scene = new Scene(new StackPane(cb), 640, 480);
-        stage.setTitle("A*");
-
-        stage.setScene(scene);
-        stage.show();
-        */
-
     }
 
     public static void main(String[] args) {
