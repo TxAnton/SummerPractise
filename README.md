@@ -1,6 +1,13 @@
 # SummerPractise
 ## Проект "Визуализация алгоритма A* поиск кратчайшего пути в графе"
 
+Инструкция для запуска:
+В `SummerPractise/PracticeProject/out/artifacts/artifactid1_jar/` будет лежать jar файл с названием `artifactid1.jar`
+Для его запуска нужна библиотека JavaFX
+
+При запуске укажате ее в аргументах команды:
+`java --module-path path/to/javafx-sdk-14/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.swt -jar artifactid1.jar`
+
 ### Спецификация
 
 - **Входные данные:**
